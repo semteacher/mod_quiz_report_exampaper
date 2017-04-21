@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file defines the setting form for the quiz overview report.
+ * This file defines the setting form for the quiz exampaper report.
  *
  * @package   quiz_exampaper
  * @copyright 2008 Jamie Pratt
@@ -29,7 +29,7 @@ require_once($CFG->dirroot . '/mod/quiz/report/attemptsreport_form.php');
 
 
 /**
- * Quiz overview report settings form.
+ * Quiz exampaper report settings form.
  *
  * @copyright 2008 Jamie Pratt
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

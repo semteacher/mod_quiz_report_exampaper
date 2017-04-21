@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'quiz_exampaperw', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'quiz_exampaper', language 'en', branch 'MOODLE_20_STABLE'
  *
  * @package   quiz_exampaper
  * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
@@ -46,8 +46,6 @@ $string['exampaper'] = 'Exam Grades Paper';
 $string['exampaperdownload'] = 'Exam grades download';
 $string['exampaperfilename'] = 'examgradespaper';
 $string['exampaperreport'] = 'Exam grades paper report';
-$string['exampaperreportgraph'] = 'Overall number of students achieving grade ranges';
-$string['exampaperreportgraphgroup'] = 'Number of students in group \'{$a}\' achieving grade ranges';
 $string['pagesize'] = 'Page size';
 $string['pluginname'] = 'Exam Grades Paper';
 $string['preferencespage'] = 'Preferences just for this page';

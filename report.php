@@ -41,7 +41,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
 
     public function display($quiz, $cm, $course) {
         global $DB, $OUTPUT, $PAGE;
-
+        
         list($currentgroup, $studentsjoins, $groupstudentsjoins, $allowedjoins) = $this->init(
                 'exampaper', 'quiz_exampaper_settings_form', $quiz, $cm, $course);
 
@@ -55,7 +55,13 @@ class quiz_exampaper_report extends quiz_attempts_report {
         }
 
         $this->form->set_data($options->get_initial_form_data());
-
+//var_dump($options->attempts);
+//        if (!is_null($options->attempts)) {
+//            $options->attempts = self::ENROLLED_ALL;
+//        }
+        //tdmu-force display all enrolled users
+        $options->attempts = self::ENROLLED_ALL;
+        
         // Load the required questions.
         $questions = quiz_report_get_significant_questions($quiz);
 
@@ -130,7 +136,8 @@ class quiz_exampaper_report extends quiz_attempts_report {
             }
 
             // Print the display options.
-            $this->form->display();
+            //tdmu-disable options form
+//            $this->form->display();
         }
 
         $hasstudents = $hasstudents && (!$currentgroup || $this->hasgroupstudents);
@@ -180,20 +187,21 @@ class quiz_exampaper_report extends quiz_attempts_report {
                                 get_string('regradeall', 'quiz_exampaper');
                     }
                     $displayurl = new moodle_url($options->get_url(), array('sesskey' => sesskey()));
-                    echo '<div class="mdl-align">';
-                    echo '<form action="'.$displayurl->out_omit_querystring().'">';
-                    echo '<div>';
-                    echo html_writer::input_hidden_params($displayurl);
-                    echo '<input type="submit" class="btn btn-secondary" name="regradeall" value="'.$regradealllabel.'"/>';
-                    echo '<input type="submit" class="btn btn-secondary m-l-1" name="regradealldry" value="' .
-                            $regradealldrylabel . '"/>';
-                    if ($regradesneeded) {
-                        echo '<input type="submit" class="btn btn-secondary m-l-1" name="regradealldrydo" value="' .
-                                $regradealldrydolabel . '"/>';
-                    }
-                    echo '</div>';
-                    echo '</form>';
-                    echo '</div>';
+                    //tdmu-disable regrading
+//                    echo '<div class="mdl-align">';
+//                    echo '<form action="'.$displayurl->out_omit_querystring().'">';
+//                    echo '<div>';
+//                    echo html_writer::input_hidden_params($displayurl);
+//                    echo '<input type="submit" class="btn btn-secondary" name="regradeall" value="'.$regradealllabel.'"/>';
+//                    echo '<input type="submit" class="btn btn-secondary m-l-1" name="regradealldry" value="' .
+//                            $regradealldrylabel . '"/>';
+//                    if ($regradesneeded) {
+//                        echo '<input type="submit" class="btn btn-secondary m-l-1" name="regradealldrydo" value="' .
+//                                $regradealldrydolabel . '"/>';
+//                    }
+//                    echo '</div>';
+//                    echo '</form>';
+//                    echo '</div>';
                 }
                 // Print information on the grading method.
                 if ($strattempthighlight = quiz_report_highlighting_grading_method(
@@ -207,8 +215,9 @@ class quiz_exampaper_report extends quiz_attempts_report {
             $headers = array();
 
             if (!$table->is_downloading() && $options->checkboxcolumn) {
-                $columns[] = 'checkbox';
-                $headers[] = null;
+            //tdmu-disable checkbox column
+//                $columns[] = 'checkbox';
+//                $headers[] = null;
             }
 
             $this->add_user_columns($table, $columns, $headers);
@@ -224,18 +233,19 @@ class quiz_exampaper_report extends quiz_attempts_report {
             }
 
             if ($options->slotmarks) {
-                foreach ($questions as $slot => $question) {
-                    // Ignore questions of zero length.
-                    $columns[] = 'qsgrade' . $slot;
-                    $header = get_string('qbrief', 'quiz', $question->number);
-                    if (!$table->is_downloading()) {
-                        $header .= '<br />';
-                    } else {
-                        $header .= ' ';
-                    }
-                    $header .= '/' . quiz_rescale_grade($question->maxmark, $quiz, 'question');
-                    $headers[] = $header;
-                }
+            //tdmu-disable slotmarks
+//                foreach ($questions as $slot => $question) {
+//                    // Ignore questions of zero length.
+//                    $columns[] = 'qsgrade' . $slot;
+//                    $header = get_string('qbrief', 'quiz', $question->number);
+//                    if (!$table->is_downloading()) {
+//                        $header .= '<br />';
+//                    } else {
+//                        $header .= ' ';
+//                    }
+//                    $header .= '/' . quiz_rescale_grade($question->maxmark, $quiz, 'question');
+//                    $headers[] = $header;
+//                }
             }
 
             $this->set_up_table_columns($table, $columns, $headers, $this->get_base_url(), $options, false);

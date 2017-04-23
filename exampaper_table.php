@@ -381,10 +381,16 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
         global $OUTPUT;
 
         if ($this->is_downloadable() && !$this->is_downloading()) {
-        //TODO set default download option to 'html' there?
-        echo 'search: override!';
-            return $OUTPUT->download_dataformat_selector(get_string('downloadas', 'table'),
+            //tdmu - set default download option to 'html' there?
+            //echo 'search: override!';
+            //$select = $OUTPUT->download_dataformat_selector(get_string('downloadas', 'table'),
+            //            $this->baseurl->out_omit_querystring(), 'download', $this->baseurl->params());
+            $select = $OUTPUT->download_dataformat_selector('Download report paper: ',
                     $this->baseurl->out_omit_querystring(), 'download', $this->baseurl->params());
+            $select = str_replace('option value="html"', 'option value="html" selected', $select);
+            $select = str_replace('select name="download" id="downloadtype_download"', 'select name="download" id="downloadtype_download" hidden', $select);
+//var_dump($select); 
+            return $select;
         } else {
             return '';
         }

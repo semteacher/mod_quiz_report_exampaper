@@ -18,5 +18,17 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
+    <TABLE NAME="quiz_exampaper_colontitles" COMMENT="This table records exam paper colontitles (header and footer).">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="quizid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key reference to the quiz this exam paper report is part of."/>
+        <FIELD NAME="cheader" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Report paper header."/>
+        <FIELD NAME="cfooter" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Report paper footer."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="quizid" TYPE="foreign" FIELDS="quizid" REFTABLE="quiz" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>    
   </TABLES>
 </XMLDB>

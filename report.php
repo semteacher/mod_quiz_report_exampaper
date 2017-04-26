@@ -46,14 +46,16 @@ class quiz_exampaper_report extends quiz_attempts_report {
                 'exampaper', 'quiz_exampaper_settings_form', $quiz, $cm, $course);
 
         $options = new quiz_exampaper_options('exampaper', $quiz, $cm, $course);
-
+//var_dump($fromform = $this->form->get_data());
         if ($fromform = $this->form->get_data()) {
             $options->process_settings_from_form($fromform);
 
         } else {
             $options->process_settings_from_params();
+//var_dump($options);            
         }
-
+//var_dump($options->get_initial_form_data());
+var_dump($options); 
         $this->form->set_data($options->get_initial_form_data());
 //var_dump($options->attempts);
 //        if (!is_null($options->attempts)) {
@@ -137,7 +139,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
 
             // Print the display options.
             //tdmu-disable options form
-//            $this->form->display();
+            $this->form->display();
         }
 
         $hasstudents = $hasstudents && (!$currentgroup || $this->hasgroupstudents);

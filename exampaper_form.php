@@ -34,19 +34,19 @@ require_once($CFG->libdir . '/formslib.php');
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class quiz_exampaper_settings_form extends moodleform {
+class quiz_exampaper_settings_form extends moodleform {
 
     protected function definition() {
         $mform = $this->_form;
 
-        $mform->addElement('header', 'preferencespage',
-                get_string('reportwhattoinclude', 'quiz'));
+//        $mform->addElement('header', 'preferencespage',
+//                get_string('reportwhattoinclude', 'quiz'));
 
-        $this->standard_attempt_fields($mform);
-        $this->other_attempt_fields($mform);
+//        $this->standard_attempt_fields($mform);
+//        $this->other_attempt_fields($mform);
 
         $mform->addElement('header', 'preferencesuser',
-                get_string('reportdisplayoptions', 'quiz'));
+                get_string('reportcolontitlesdisplayoptions', 'exampaper'));
 
         $this->standard_preference_fields($mform);
         $this->other_preference_fields($mform);
@@ -55,26 +55,7 @@ abstract class quiz_exampaper_settings_form extends moodleform {
                 get_string('savecolontitles', 'exampaper'));
     }
 
-    protected function standard_attempt_fields(MoodleQuickForm $mform) {
-		// cheader.
-        $mform->addElement('text', 'cheader', get_string('cheader'), array('size'=>'64'));
-        if (!empty($CFG->formatstringstriptags)) {
-            $mform->setType('cheader', PARAM_TEXT);
-        } else {
-            $mform->setType('cheader', PARAM_CLEANHTML);
-        }
-        $mform->addRule('cheader', null, 'required', null, 'client');
-        $mform->addRule('cheader', get_string('maximumchars', '', 1255), 'maxlength', 1255, 'client');
-
-		// cfooter.
-        $mform->addElement('text', 'cfooter', get_string('cfooter'), array('size'=>'64'));
-        if (!empty($CFG->formatstringstriptags)) {
-            $mform->setType('cfooter', PARAM_TEXT);
-        } else {
-            $mform->setType('cfooter', PARAM_CLEANHTML);
-        }
-        $mform->addRule('cfooter', null, 'required', null, 'client');
-        $mform->addRule('cfooter', get_string('maximumchars', '', 1255), 'maxlength', 1255, 'client');
+    protected function standard_attempt_fields(MoodleQuickForm $mform) {            
     }
 
     protected function other_attempt_fields(MoodleQuickForm $mform) {
@@ -84,6 +65,17 @@ abstract class quiz_exampaper_settings_form extends moodleform {
     }
 
     protected function other_preference_fields(MoodleQuickForm $mform) {
+		// cheader.
+        $mform->addElement('editor', 'cheader',
+                get_string('cheader', 'exampaper'), array('rows' => 5), array('maxfiles' => EDITOR_UNLIMITED_FILES,
+                        'noclean' => true, 'enable_filemanagement' => true));
+        $mform->setType('cheader', PARAM_RAW);
+
+		// cfooter.
+        $mform->addElement('editor', 'cfooter',
+                get_string('cfooter', 'exampaper'), array('rows' => 5), array('maxfiles' => EDITOR_UNLIMITED_FILES,
+                        'noclean' => true, 'enable_filemanagement' => true));
+        $mform->setType('cfooter', PARAM_RAW);        
     }
 
     public function validation($data, $files) {

@@ -15,42 +15,81 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file defines the setting form for the quiz exampaper report.
+ * Base class for the settings form for {@link quiz_attempts_report}s.
  *
- * @package   quiz_exampaper
- * @copyright 2008 Jamie Pratt
+ * @package   mod_quiz
+ * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/mod/quiz/report/attemptsreport_form.php');
+require_once($CFG->libdir . '/formslib.php');
 
 
 /**
- * Quiz exampaper report settings form.
+ * Base class for the settings form for {@link quiz_attempts_report}s.
  *
- * @copyright 2008 Jamie Pratt
+ * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class quiz_exampaper_settings_form extends mod_quiz_attempts_report_form {
+abstract class quiz_exampaper_settings_form extends moodleform {
+
+    protected function definition() {
+        $mform = $this->_form;
+
+        $mform->addElement('header', 'preferencespage',
+                get_string('reportwhattoinclude', 'quiz'));
+
+        $this->standard_attempt_fields($mform);
+        $this->other_attempt_fields($mform);
+
+        $mform->addElement('header', 'preferencesuser',
+                get_string('reportdisplayoptions', 'quiz'));
+
+        $this->standard_preference_fields($mform);
+        $this->other_preference_fields($mform);
+
+        $mform->addElement('submit', 'submitbutton',
+                get_string('savecolontitles', 'exampaper'));
+    }
+
+    protected function standard_attempt_fields(MoodleQuickForm $mform) {
+		
+		
+		// cheader.
+        $mform->addElement('text', 'cheader', get_string('cheader'), array('size'=>'64'));
+        if (!empty($CFG->formatstringstriptags)) {
+            $mform->setType('cheader', PARAM_TEXT);
+        } else {
+            $mform->setType('cheader', PARAM_CLEANHTML);
+        }
+        $mform->addRule('cheader', null, 'required', null, 'client');
+        $mform->addRule('cheader', get_string('maximumchars', '', 1255), 'maxlength', 1255, 'client');
+
+		// cfooter.
+        $mform->addElement('text', 'cfooter', get_string('cfooter'), array('size'=>'64'));
+        if (!empty($CFG->formatstringstriptags)) {
+            $mform->setType('cfooter', PARAM_TEXT);
+        } else {
+            $mform->setType('cfooter', PARAM_CLEANHTML);
+        }
+        $mform->addRule('cfooter', null, 'required', null, 'client');
+        $mform->addRule('cfooter', get_string('maximumchars', '', 1255), 'maxlength', 1255, 'client');
+    }
 
     protected function other_attempt_fields(MoodleQuickForm $mform) {
-        if (has_capability('mod/quiz:regrade', $this->_customdata['context'])) {
-            $mform->addElement('advcheckbox', 'onlyregraded', get_string('reportshowonly', 'quiz'),
-                    get_string('optonlyregradedattempts', 'quiz_exampaper'));
-            $mform->disabledIf('onlyregraded', 'attempts', 'eq', quiz_attempts_report::ENROLLED_WITHOUT);
-        }
+    }
+
+    protected function standard_preference_fields(MoodleQuickForm $mform) {
     }
 
     protected function other_preference_fields(MoodleQuickForm $mform) {
-        if (quiz_has_grades($this->_customdata['quiz'])) {
-            $mform->addElement('selectyesno', 'slotmarks',
-                    get_string('showdetailedmarks', 'quiz_exampaper'));
-        } else {
-            $mform->addElement('hidden', 'slotmarks', 0);
-            $mform->setType('slotmarks', PARAM_INT);
-        }
+    }
+
+    public function validation($data, $files) {
+        $errors = parent::validation($data, $files);
+        return $errors;
     }
 }

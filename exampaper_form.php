@@ -56,8 +56,6 @@ abstract class quiz_exampaper_settings_form extends moodleform {
     }
 
     protected function standard_attempt_fields(MoodleQuickForm $mform) {
-		
-		
 		// cheader.
         $mform->addElement('text', 'cheader', get_string('cheader'), array('size'=>'64'));
         if (!empty($CFG->formatstringstriptags)) {

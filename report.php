@@ -54,10 +54,11 @@ class quiz_exampaper_report extends quiz_attempts_report {
             $options->process_settings_from_params();
 //var_dump($options);            
         }
-//var_dump($options->get_initial_form_data());
-var_dump($options); 
+var_dump($options->get_initial_form_data());
+//var_dump($options); 
         $this->form->set_data($options->get_initial_form_data());
 //var_dump($options->attempts);
+//var_dump($options);
 //        if (!is_null($options->attempts)) {
 //            $options->attempts = self::ENROLLED_ALL;
 //        }
@@ -298,8 +299,31 @@ var_dump($options);
             $this->regrade_attempts_needing_it($quiz, $groupstudentsjoins);
             $this->finish_regrade($redirecturl);
         }
+        
+        if ((optional_param('cheader', 0, PARAM_RAW)||optional_param('cfooter', 0, PARAM_RAW)) && confirm_sesskey()) {
+            $this->savecolontitle($quiz, optional_param('cheader', 0, PARAM_RAW), optional_param('cfooter', 0, PARAM_RAW));
+        }
+                
     }
 
+    protected function savecolontitle($quiz, $cheader='', $cfooter='') {
+        global $DB;
+        
+        $transaction = $DB->start_delegated_transaction();
+        
+        $colontitles = new stdClass();
+        $colontitles->quizid = $quiz->get_id();
+        $colontitles->cheader = $cheader[text];
+        $colontitles->cfooter = $cfooter[text];
+var_dump($cheader);        
+var_dump($colontitles);
+die();
+        $DB->insert_record('quiz_exampaper_colontitles', $colontitles, false);
+        
+        $transaction->allow_commit();
+die();        
+    }
+    
     /**
      * Check necessary capabilities, and start the display of the regrade progress page.
      * @param object $quiz the quiz settings.

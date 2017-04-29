@@ -42,7 +42,9 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
     /** @var bool whether to show marks for each question (slot). */
     public $slotmarks = true;
     
-    public $cheader = 'TDMU header';    
+//    public $cheader = array('text'=>'TDMU header');    
+//    public $cfooter = array('text'=>'TDMU footer');
+    public $cheader = 'TDMU header';
     public $cfooter = 'TDMU footer';
 
     protected function get_url_params() {
@@ -63,7 +65,7 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
 
         $toform->cheader    = $this->cheader;
         $toform->cfooter    = $this->cfooter;        
-        
+
         return $toform;
     }
 

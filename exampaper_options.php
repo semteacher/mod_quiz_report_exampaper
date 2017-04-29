@@ -44,16 +44,20 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
     
 //    public $cheader = array('text'=>'TDMU header');    
 //    public $cfooter = array('text'=>'TDMU footer');
-    public $cheader = 'TDMU header';
-    public $cfooter = 'TDMU footer';
+    public $cheadertext = 'TDMU header';
+    public $cheaderformat = 1;
+    public $cfootertext = 'TDMU footer';
+    public $cfoterformat = 1;
 
     protected function get_url_params() {
         $params = parent::get_url_params();
         $params['onlyregraded'] = $this->onlyregraded;
         $params['slotmarks']    = $this->slotmarks;
         
-        $params['cheader']    = $this->cheader;
-        $params['cfooter']    = $this->cfooter;
+//        $params['cheader']['text']    = $this->cheadertext;
+//        $params['cheader']['format']  = $this->cheaderformat;
+//        $params['cfooter']['text']    = $this->cfootertext;
+//        $params['cfooter']['format']  = $this->cfoterformat;
         
         return $params;
     }
@@ -63,8 +67,10 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $toform->onlyregraded = $this->onlyregraded;
         $toform->slotmarks    = $this->slotmarks;
 
-        $toform->cheader    = $this->cheader;
-        $toform->cfooter    = $this->cfooter;        
+        $toform->cheader['text']    = $this->cheadertext;
+     //   $toform->cheader['format']    = $this->cheaderformat;
+        $toform->cfooter['text']    = $this->cfootertext;
+    //    $toform->cfooter['format']    = $this->cfoterformat;
 
         return $toform;
     }
@@ -75,8 +81,10 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $this->onlyregraded = !empty($fromform->onlyregraded);
         $this->slotmarks    = $fromform->slotmarks;
         
-        $this->cheader    = $fromform->cheader;
-        $this->cfooter    = $fromform->cfooter;
+        $this->cheadertext    = $fromform->cheader['text'];
+        $this->cfootertext    = $fromform->cfooter['text'];
+        $this->cheaderformat  = $fromform->cheader['format'];
+        $this->cfoterformat   = $fromform->cfooter['format'];
     }
 
     public function setup_from_params() {
@@ -85,8 +93,11 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $this->onlyregraded = optional_param('onlyregraded', $this->onlyregraded, PARAM_BOOL);
         $this->slotmarks    = optional_param('slotmarks', $this->slotmarks, PARAM_BOOL);
         
-        $this->cheader    = optional_param('cheader', $this->cheader, PARAM_RAW);
-        $this->cfooter    = optional_param('cfooter', $this->cfooter, PARAM_RAW);
+        $this->cheadertext    = optional_param('cheader[text]', $this->cheadertext, PARAM_RAW);
+        $this->cfootertext    = optional_param('cfooter[text]', $this->cfootertext, PARAM_RAW);
+        $this->cheaderformat  = optional_param('cheader[format]', $this->cheaderformat, PARAM_INT);        
+        $this->cfoterformat   = optional_param('cfooter[format]', $this->cfoterformat, PARAM_INT);
+var_dump($this);        
     }
 
     public function setup_from_user_preferences() {

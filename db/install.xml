@@ -23,9 +23,9 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="quizid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key reference to the quiz this exam paper report is part of."/>
         <FIELD NAME="cheader" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Report paper header."/>
-        <FIELD NAME="cheaderformat" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="true" COMMENT="Report paper header format."/>
+        <FIELD NAME="cheaderformat" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false" COMMENT="Report paper header format."/>
         <FIELD NAME="cfooter" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Report paper footer."/>
-        <FIELD NAME="cfooterformat" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="true" COMMENT="Report paper footer format."/>
+        <FIELD NAME="cfooterformat" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false" COMMENT="Report paper footer format."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

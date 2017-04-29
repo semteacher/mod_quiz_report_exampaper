@@ -55,7 +55,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
 //var_dump($options);            
         }
 //var_dump($options->get_initial_form_data());
-var_dump($options); 
+//var_dump($options); 
 //var_dump($options->get_url());
         $this->form->set_data($options->get_initial_form_data());
 //var_dump($options->attempts);

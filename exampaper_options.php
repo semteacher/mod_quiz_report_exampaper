@@ -63,15 +63,27 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
     }
 
     public function get_initial_form_data() {
+        global $DB;
+        
         $toform = parent::get_initial_form_data();
         $toform->onlyregraded = $this->onlyregraded;
         $toform->slotmarks    = $this->slotmarks;
 
-        $toform->cheader['text']    = $this->cheadertext;
-     //   $toform->cheader['format']    = $this->cheaderformat;
-        $toform->cfooter['text']    = $this->cfootertext;
-    //    $toform->cfooter['format']    = $this->cfoterformat;
-
+        $saved_colontitles = $DB->get_record('quiz_exampaper_colontitles', array('quizid'=>$this->quiz->id));
+//var_dump($saved_colontitles);        
+        if ($saved_colontitles) {
+//var_dump($saved_colontitles);        
+            $toform->cheader['text']    = $saved_colontitles->cheader;
+            $toform->cfooter['text']    = $saved_colontitles->cfooter;
+            $toform->cheader['format']  = $saved_colontitles->cheaderformat;
+            $toform->cfooter['format']  = $saved_colontitles->cfooterformat;
+        } else {
+            $toform->cheader['text']    = $this->cheadertext;
+        //   $toform->cheader['format']    = $this->cheaderformat;
+            $toform->cfooter['text']    = $this->cfootertext;
+        //    $toform->cfooter['format']    = $this->cfoterformat;
+        }
+        
         return $toform;
     }
 
@@ -97,7 +109,7 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $this->cfootertext    = optional_param('cfooter[text]', $this->cfootertext, PARAM_RAW);
         $this->cheaderformat  = optional_param('cheader[format]', $this->cheaderformat, PARAM_INT);        
         $this->cfoterformat   = optional_param('cfooter[format]', $this->cfoterformat, PARAM_INT);
-var_dump($this);        
+//var_dump($this);        
     }
 
     public function setup_from_user_preferences() {

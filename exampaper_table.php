@@ -385,7 +385,7 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
             //echo 'search: override!';
             //$select = $OUTPUT->download_dataformat_selector(get_string('downloadas', 'table'),
             //            $this->baseurl->out_omit_querystring(), 'download', $this->baseurl->params());
-            $select = $OUTPUT->download_dataformat_selector('Download report paper: ',
+            $select = $OUTPUT->download_dataformat_selector(get_string('exampaperdownload', 'quiz_exampaper'),
                     $this->baseurl->out_omit_querystring(), 'download', $this->baseurl->params());
             $select = str_replace('option value="html"', 'option value="html" selected', $select);
             $select = str_replace('select name="download" id="downloadtype_download"', 'select name="download" id="downloadtype_download" hidden', $select);

@@ -46,13 +46,13 @@ class quiz_exampaper_settings_form extends moodleform {
 //        $this->other_attempt_fields($mform);
 
         $mform->addElement('header', 'preferencesuser',
-                get_string('reportcolontitlesdisplayoptions', 'exampaper'));
+                get_string('exampapercolontitlesdisplayoptions', 'quiz_exampaper'));
 
         $this->standard_preference_fields($mform);
         $this->other_preference_fields($mform);
 
         $mform->addElement('submit', 'submitbutton',
-                get_string('savecolontitles', 'exampaper'));
+                get_string('exampapersavecolontitles', 'quiz_exampaper'));
     }
 
     protected function standard_attempt_fields(MoodleQuickForm $mform) {            
@@ -67,13 +67,13 @@ class quiz_exampaper_settings_form extends moodleform {
     protected function other_preference_fields(MoodleQuickForm $mform) {
 		// cheader.
         $mform->addElement('editor', 'cheader',
-                get_string('cheader', 'exampaper'), array('rows' => 5), array('maxfiles' => EDITOR_UNLIMITED_FILES,
+                get_string('exampapercheader', 'quiz_exampaper'), array('rows' => 5), array('maxfiles' => EDITOR_UNLIMITED_FILES,
                         'noclean' => true, 'enable_filemanagement' => true));
         $mform->setType('cheader', PARAM_RAW);
 
 		// cfooter.
         $mform->addElement('editor', 'cfooter',
-                get_string('cfooter', 'exampaper'), array('rows' => 5), array('maxfiles' => EDITOR_UNLIMITED_FILES,
+                get_string('exampapercfooter', 'quiz_exampaper'), array('rows' => 5), array('maxfiles' => EDITOR_UNLIMITED_FILES,
                         'noclean' => true, 'enable_filemanagement' => true));
         $mform->setType('cfooter', PARAM_RAW);        
     }

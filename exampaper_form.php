@@ -37,6 +37,8 @@ require_once($CFG->libdir . '/formslib.php');
 class quiz_exampaper_settings_form extends moodleform {
 
     protected function definition() {
+        global $PAGE;
+        
         $mform = $this->_form;
 
 //        $mform->addElement('header', 'preferencespage',
@@ -51,13 +53,17 @@ class quiz_exampaper_settings_form extends moodleform {
         $this->standard_preference_fields($mform);
         $this->other_preference_fields($mform);
 
-        $mform->addElement('submit', 'submitbutton',
-                get_string('exampapersavecolontitles', 'quiz_exampaper'));
-        $mform->addElement('cancel', 'cancelbutton',
-                get_string('exampaperesetcolontitles', 'quiz_exampaper'));                
+        $mform->addElement('submit', 'savecolontitles',
+                get_string('exampapersavecolontitles', 'quiz_exampaper'));        
+        $mform->addElement('cancel', 'resetcolontitles',
+                get_string('exampaperesetcolontitles', 'quiz_exampaper'));
+            $PAGE->requires->event_handler('#id_resetcolontitles', 'click', 'M.util.show_confirm_dialog',
+                    array('message' => get_string('exampaperesetcolontitlescofirmation', 'quiz_exampaper')));                
+//var_dump($PAGE->url->out(false, array('exampapereset' => 1)));
+
     }
 
-    protected function standard_attempt_fields(MoodleQuickForm $mform) {            
+    protected function standard_attempt_fields(MoodleQuickForm $mform) {
     }
 
     protected function other_attempt_fields(MoodleQuickForm $mform) {

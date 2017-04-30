@@ -301,14 +301,19 @@ class quiz_exampaper_report extends quiz_attempts_report {
             $this->regrade_attempts_needing_it($quiz, $groupstudentsjoins);
             $this->finish_regrade($redirecturl);
         }
-//var_dump((optional_param('cheader[text]', '-', PARAM_RAW)));
-//        if ((optional_param('cheader', 0, PARAM_RAW)||optional_param('cfooter', 0, PARAM_RAW)) && confirm_sesskey()) {
-            $this->savecolontitle($quiz);
+
+//        if (optional_param('savecolontitles', '', PARAM_TEXT) && confirm_sesskey()) {
+            $this->savecolontitles($quiz);
 //        }
+        
+        if (optional_param('resetcolontitles', '', PARAM_TEXT) && confirm_sesskey()) {
+            var_dump((optional_param('resetcolontitles', '', PARAM_TEXT)));
+            $this->resetcolontitles($quiz);
+        }
                 
     }
 
-    protected function savecolontitle($quiz) {
+    protected function savecolontitles($quiz) {
         global $DB;
         
         if ($formdata = $this->form->get_data()) {
@@ -335,6 +340,14 @@ class quiz_exampaper_report extends quiz_attempts_report {
 //die();        
 }
     }
+    
+    protected function resetcolontitles($quiz) {
+        global $DB;
+        
+        $transaction = $DB->start_delegated_transaction();
+        $DB->delete_records('quiz_exampaper_colontitles', array('quizid'=>$quiz->id));
+        $transaction->allow_commit();
+    }    
     
     /**
      * Check necessary capabilities, and start the display of the regrade progress page.

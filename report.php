@@ -302,13 +302,14 @@ class quiz_exampaper_report extends quiz_attempts_report {
             $this->finish_regrade($redirecturl);
         }
 
-//        if (optional_param('savecolontitles', '', PARAM_TEXT) && confirm_sesskey()) {
+        if (optional_param('savecolontitles', '', PARAM_TEXT) && confirm_sesskey()) {
             $this->savecolontitles($quiz);
-//        }
+        }
         
         if (optional_param('resetcolontitles', '', PARAM_TEXT) && confirm_sesskey()) {
-            var_dump((optional_param('resetcolontitles', '', PARAM_TEXT)));
+            //var_dump($redirecturl);
             $this->resetcolontitles($quiz);
+            redirect($redirecturl);
         }
                 
     }

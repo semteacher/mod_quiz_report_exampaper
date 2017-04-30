@@ -68,7 +68,8 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $toform = parent::get_initial_form_data();
         $toform->onlyregraded = $this->onlyregraded;
         $toform->slotmarks    = $this->slotmarks;
-var_dump($this);
+//var_dump($this);
+//var_dump($this->get_url());
         $saved_colontitles = $DB->get_record('quiz_exampaper_colontitles', array('quizid'=>$this->quiz->id));
         $a= new stdClass();
         $a->groupname = groups_get_group_name($this->group);

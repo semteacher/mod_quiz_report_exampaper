@@ -75,5 +75,6 @@ $string['exampapercheader'] = 'Colontitles - report header';
 $string['exampapercfooter'] = 'Colontitles - report footer';
 $string['exampapersavecolontitles'] = 'Save static colontitles';
 $string['exampaperesetcolontitles'] = 'Reset colontitles to default';
+$string['exampaperesetcolontitlescofirmation'] = 'Are you absolutely sure? All your changes of the colontites will be completely deleted !';
 $string['exampapercheaderdefault'] = '<h3>Report header</h3><div>group \'{$a->groupname}\'</div>';
 $string['exampapercfooterdefault'] = '<h3>Report footer</h3>';

@@ -46,6 +46,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
                 'exampaper', 'quiz_exampaper_settings_form', $quiz, $cm, $course);
 
         $options = new quiz_exampaper_options('exampaper', $quiz, $cm, $course);
+        //$options->currentgroup = $currentgroup;
 //var_dump($this->form->get_data());
         if ($fromform = $this->form->get_data()) {
             $options->process_settings_from_form($fromform);
@@ -254,7 +255,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
 
             $this->set_up_table_columns($table, $columns, $headers, $this->get_base_url(), $options, false);
             $table->set_attribute('class', 'generaltable generalbox grades');
-
+//var_dump($this);
             $table->out($options->pagesize, true);
         }
 

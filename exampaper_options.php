@@ -68,8 +68,11 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $toform = parent::get_initial_form_data();
         $toform->onlyregraded = $this->onlyregraded;
         $toform->slotmarks    = $this->slotmarks;
-
+var_dump($this);
         $saved_colontitles = $DB->get_record('quiz_exampaper_colontitles', array('quizid'=>$this->quiz->id));
+        $a= new stdClass();
+        $a->groupname = groups_get_group_name($this->group);
+                        //$regradealldrydolabel = get_string('regradealldrydogroup', 'quiz_exampaper', $a);
 //var_dump($saved_colontitles);        
         if ($saved_colontitles) {
 //var_dump($saved_colontitles);        
@@ -78,10 +81,12 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
             $toform->cheader['format']  = $saved_colontitles->cheaderformat;
             $toform->cfooter['format']  = $saved_colontitles->cfooterformat;
         } else {
-            $toform->cheader['text']    = $this->cheadertext;
-        //   $toform->cheader['format']    = $this->cheaderformat;
-            $toform->cfooter['text']    = $this->cfootertext;
-        //    $toform->cfooter['format']    = $this->cfoterformat;
+            $toform->cheader['text']    = get_string('exampapercheaderdefault', 'quiz_exampaper', $a);
+            $toform->cfooter['text']    = get_string('exampapercfooterdefault', 'quiz_exampaper', $a);
+            //$toform->cheader['text']    = $this->cheadertext;            
+            //$toform->cheader['format']    = $this->cheaderformat;
+            //$toform->cfooter['text']    = $this->cfootertext;
+            //$toform->cfooter['format']    = $this->cfoterformat;
         }
         
         return $toform;

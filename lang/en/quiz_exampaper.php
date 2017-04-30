@@ -73,4 +73,6 @@ $string['exampaperreport'] = 'Exam grades paper report';
 $string['exampapercolontitlesdisplayoptions'] = 'Report colontitles';
 $string['exampapercheader'] = 'Colontitles - report header';
 $string['exampapercfooter'] = 'Colontitles - report footer';
-$string['exampapersavecolontitles'] = 'Save colontitle changes';
+$string['exampapersavecolontitles'] = 'Save static colontitles';
+$string['exampapercheaderdefault'] = '<h3>Report header</h3><div>group \'{$a->groupname}\'</div>';
+$string['exampapercfooterdefault'] = '<h3>Report footer</h3>';

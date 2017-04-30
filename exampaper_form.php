@@ -53,6 +53,8 @@ class quiz_exampaper_settings_form extends moodleform {
 
         $mform->addElement('submit', 'submitbutton',
                 get_string('exampapersavecolontitles', 'quiz_exampaper'));
+        $mform->addElement('cancel', 'cancelbutton',
+                get_string('exampaperesetcolontitles', 'quiz_exampaper'));                
     }
 
     protected function standard_attempt_fields(MoodleQuickForm $mform) {            

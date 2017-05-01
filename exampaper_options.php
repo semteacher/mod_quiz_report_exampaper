@@ -42,6 +42,11 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
     /** @var bool whether to show marks for each question (slot). */
     public $slotmarks = true;
     
+    //tdmu-force display all enrolled users
+    public $attempts = quiz_attempts_report::ENROLLED_ALL;
+    
+    public $pagesize = 30;
+    
 //    public $cheader = array('text'=>'TDMU header');    
 //    public $cfooter = array('text'=>'TDMU footer');
     public $cheadertext = 'TDMU header';
@@ -53,6 +58,8 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $params = parent::get_url_params();
         $params['onlyregraded'] = $this->onlyregraded;
         $params['slotmarks']    = $this->slotmarks;
+        $params['attempts']     = $this->attempts;
+        $params['pagesize']     = $this->pagesize;
         
 //        $params['cheader']['text']    = $this->cheadertext;
 //        $params['cheader']['format']  = $this->cheaderformat;
@@ -68,6 +75,8 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $toform = parent::get_initial_form_data();
         $toform->onlyregraded = $this->onlyregraded;
         $toform->slotmarks    = $this->slotmarks;
+        $toform->attempts     = $this->attempts;
+        $toform->pagesize     = $this->pagesize;
 //var_dump($this);
 //var_dump($this->get_url());
         $saved_colontitles = $DB->get_record('quiz_exampaper_colontitles', array('quizid'=>$this->quiz->id));
@@ -98,6 +107,8 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
 
         $this->onlyregraded = !empty($fromform->onlyregraded);
         $this->slotmarks    = $fromform->slotmarks;
+        $this->pagesize     = $fromform->pagesize;
+        $this->attempts     = $fromform->attempts;
         
         $this->cheadertext    = $fromform->cheader['text'];
         $this->cfootertext    = $fromform->cfooter['text'];
@@ -110,6 +121,8 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
 
         $this->onlyregraded = optional_param('onlyregraded', $this->onlyregraded, PARAM_BOOL);
         $this->slotmarks    = optional_param('slotmarks', $this->slotmarks, PARAM_BOOL);
+        $this->pagesize     = optional_param('pagesize', $this->pagesize, PARAM_INT);
+        $this->attempts     = optional_param('attempts', $this->attempts, PARAM_TEXT);
         
         $this->cheadertext    = optional_param('cheader[text]', $this->cheadertext, PARAM_RAW);
         $this->cfootertext    = optional_param('cfooter[text]', $this->cfootertext, PARAM_RAW);

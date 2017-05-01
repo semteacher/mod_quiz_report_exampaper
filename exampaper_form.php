@@ -70,6 +70,12 @@ class quiz_exampaper_settings_form extends moodleform {
     }
 
     protected function standard_preference_fields(MoodleQuickForm $mform) {
+        $mform->addElement('hidden', 'slotmarks', 0);
+        $mform->setType('slotmarks', PARAM_INT);
+        $mform->addElement('hidden', 'pagesize', quiz_attempts_report::DEFAULT_PAGE_SIZE);
+        $mform->setType('pagesize', PARAM_INT);
+        $mform->addElement('hidden', 'attempts', quiz_attempts_report::ENROLLED_ALL);
+        $mform->setType('attempts', PARAM_TEXT);
     }
 
     protected function other_preference_fields(MoodleQuickForm $mform) {

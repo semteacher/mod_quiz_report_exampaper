@@ -65,7 +65,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
 //            $options->attempts = self::ENROLLED_ALL;
 //        }
         //tdmu-force display all enrolled users
-        $options->attempts = self::ENROLLED_ALL;
+        //$options->attempts = self::ENROLLED_ALL;
         
         // Load the required questions.
         $questions = quiz_report_get_significant_questions($quiz);

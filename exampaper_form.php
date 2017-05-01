@@ -40,7 +40,8 @@ class quiz_exampaper_settings_form extends moodleform {
         global $PAGE;
         
         $mform = $this->_form;
-
+        
+        //tdmu-remove defaults
 //        $mform->addElement('header', 'preferencespage',
 //                get_string('reportwhattoinclude', 'quiz'));
 
@@ -57,10 +58,8 @@ class quiz_exampaper_settings_form extends moodleform {
                 get_string('exampapersavecolontitles', 'quiz_exampaper'));        
         $mform->addElement('cancel', 'resetcolontitles',
                 get_string('exampaperesetcolontitles', 'quiz_exampaper'));
-            $PAGE->requires->event_handler('#id_resetcolontitles', 'click', 'M.util.show_confirm_dialog',
-                    array('message' => get_string('exampaperesetcolontitlescofirmation', 'quiz_exampaper')));                
-//var_dump($PAGE->url->out(false, array('exampapereset' => 1)));
-
+        $PAGE->requires->event_handler('#id_resetcolontitles', 'click', 'M.util.show_confirm_dialog',
+                    array('message' => get_string('exampaperesetcolontitlescofirmation', 'quiz_exampaper')));
     }
 
     protected function standard_attempt_fields(MoodleQuickForm $mform) {
@@ -79,13 +78,13 @@ class quiz_exampaper_settings_form extends moodleform {
     }
 
     protected function other_preference_fields(MoodleQuickForm $mform) {
-		// cheader.
+		// cheader editor.
         $mform->addElement('editor', 'cheader',
                 get_string('exampapercheader', 'quiz_exampaper'), array('rows' => 5), array('maxfiles' => EDITOR_UNLIMITED_FILES,
                         'noclean' => true, 'enable_filemanagement' => true));
         $mform->setType('cheader', PARAM_RAW);
 
-		// cfooter.
+		// cfooter editor.
         $mform->addElement('editor', 'cfooter',
                 get_string('exampapercfooter', 'quiz_exampaper'), array('rows' => 5), array('maxfiles' => EDITOR_UNLIMITED_FILES,
                         'noclean' => true, 'enable_filemanagement' => true));

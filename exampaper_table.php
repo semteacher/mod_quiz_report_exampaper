@@ -357,8 +357,8 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
             return;
         }
 
-//        echo '<div id="commands">';
-      //tdmu-disable commands below table  
+        //tdmu-disable commands below table
+//        echo '<div id="commands">';        
 //        echo '<a href="javascript:select_all_in(\'DIV\', null, \'tablecontainer\');">' .
 //                get_string('selectall', 'quiz') . '</a> / ';
 //        echo '<a href="javascript:deselect_all_in(\'DIV\', null, \'tablecontainer\');">' .
@@ -389,7 +389,7 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
                     $this->baseurl->out_omit_querystring(), 'download', $this->baseurl->params());
             $select = str_replace('option value="html"', 'option value="html" selected', $select);
             $select = str_replace('select name="download" id="downloadtype_download"', 'select name="download" id="downloadtype_download" hidden', $select);
-//var_dump($select); 
+
             return $select;
         } else {
             return '';

@@ -47,8 +47,6 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
     
     public $pagesize = 30;
     
-//    public $cheader = array('text'=>'TDMU header');    
-//    public $cfooter = array('text'=>'TDMU footer');
     public $cheadertext = 'TDMU header';
     public $cheaderformat = 1;
     public $cfootertext = 'TDMU footer';
@@ -77,13 +75,11 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $toform->slotmarks    = $this->slotmarks;
         $toform->attempts     = $this->attempts;
         $toform->pagesize     = $this->pagesize;
-//var_dump($this);
-//var_dump($this->get_url());
+
         $saved_colontitles = $DB->get_record('quiz_exampaper_colontitles', array('quizid'=>$this->quiz->id));
         $a= new stdClass();
         $a->groupname = groups_get_group_name($this->group);
-                        //$regradealldrydolabel = get_string('regradealldrydogroup', 'quiz_exampaper', $a);
-//var_dump($saved_colontitles);        
+
         if ($saved_colontitles) {
 //var_dump($saved_colontitles);        
             $toform->cheader['text']    = $saved_colontitles->cheader;
@@ -93,10 +89,6 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         } else {
             $toform->cheader['text']    = get_string('exampapercheaderdefault', 'quiz_exampaper', $a);
             $toform->cfooter['text']    = get_string('exampapercfooterdefault', 'quiz_exampaper', $a);
-            //$toform->cheader['text']    = $this->cheadertext;            
-            //$toform->cheader['format']    = $this->cheaderformat;
-            //$toform->cfooter['text']    = $this->cfootertext;
-            //$toform->cfooter['format']    = $this->cfoterformat;
         }
         
         return $toform;

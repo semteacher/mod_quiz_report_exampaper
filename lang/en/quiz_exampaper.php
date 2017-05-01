@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -76,5 +76,29 @@ $string['exampapercfooter'] = 'Colontitles - report footer';
 $string['exampapersavecolontitles'] = 'Save static colontitles';
 $string['exampaperesetcolontitles'] = 'Reset colontitles to default';
 $string['exampaperesetcolontitlescofirmation'] = 'Are you absolutely sure? All your changes of the colontites will be completely deleted !';
-$string['exampapercheaderdefault'] = '<h3>Report header</h3><div>group \'{$a->groupname}\'</div>';
-$string['exampapercfooterdefault'] = '<h3>Report footer</h3>';
+$string['exampapercheaderdefault'] = '
+<p style="text-align: center;">МІНІСТЕРСТВО ОХОРОНИ ЗДОРОВ\'Я УКРАЇНИ</p><p style="text-align: center;"><b>Тернопільський державний медичний університет імені І.Я.Горбачевського</b></p><p>
+</p><table>
+<tbody>
+<tr>
+<td scope="col">Факультет _____________________________________</td>
+<td scope="col"></td>
+<td scope="col" style="text-align: right;"><br></td>
+</tr>
+<tr>
+<td>Спеціальність _________________________________</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Група {$a->groupname}</td>
+<td>2016/2017 н.р.</td>
+<td>Курс ____</td>
+</tr>
+</tbody>
+</table>
+<h4 style="text-align: center;">ЕКЗАМЕНАЦІЙНА ВІДОМІСТЬ № _________</h4><p>з _______________________________________</p><p>за ______ семестр, ______________ _____________<br><br><p></p></p>
+';
+$string['exampapercfooterdefault'] = '
+<p>Голова комісії ____________________________________________________<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(вчені звання, прізвище та ініціали) &nbsp; &nbsp;(підпис)</p><p>Члени комісії&nbsp;____________________________________________________<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(вчені звання, прізвище та ініціали) &nbsp; &nbsp;(підпис)<br></p><p>_______________________________________________________________</p><p>_______________________________________________________________<br></p><p>1. Навпроти прізвища студента, який не з\'явився на підсумковий контроль, екзаменатор вказує - "не з\'явився"<br>2. Відомість подається в деканат не пізніше наступного дня після проведення підсумкового контролю.</p>
+';

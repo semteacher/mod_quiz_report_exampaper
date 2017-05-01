@@ -27,7 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/quiz/report/attemptsreport_table.php');
 
-
 /**
  * This is a table subclass for displaying the quiz grades report.
  *
@@ -92,6 +91,13 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
             //tdmu-remove average
 //                $this->add_average_row(get_string('overallaverage', 'grades'), $this->studentsjoins);
             }
+        }
+        
+        if ($this->is_downloading()) {
+                //echo '<div>';
+                //echo $this->options->cfootertext;
+                //echo html_writer::input_hidden_params($displayurl);
+                //echo '</div>';        
         }
     }
 
@@ -387,12 +393,26 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
             //            $this->baseurl->out_omit_querystring(), 'download', $this->baseurl->params());
             $select = $OUTPUT->download_dataformat_selector(get_string('exampaperdownload', 'quiz_exampaper'),
                     $this->baseurl->out_omit_querystring(), 'download', $this->baseurl->params());
-            $select = str_replace('option value="html"', 'option value="html" selected', $select);
+            $select = str_replace('option value="doc"', 'option value="doc" selected', $select);
             $select = str_replace('select name="download" id="downloadtype_download"', 'select name="download" id="downloadtype_download" hidden', $select);
 
             return $select;
         } else {
             return '';
+        }
+    }
+    
+    function finish_output($closeexportclassdoc = true) {
+        if ($this->exportclass!==null) {
+//var_dump($this->exportclass);
+            //$this->exportclass->finish_table();                        
+            \dataformat_doc\writer::st_write_footer(array('docfooter'=>$this->options->cfootertext));
+
+            if ($closeexportclassdoc) {
+                $this->exportclass->finish_document();
+            }
+        } else {
+            $this->finish_html();
         }
     }
 }

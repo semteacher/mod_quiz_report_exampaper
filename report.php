@@ -245,7 +245,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
 
             $this->set_up_table_columns($table, $columns, $headers, $this->get_base_url(), $options, false);
             $table->set_attribute('class', 'generaltable generalbox grades');
-//var_dump($this);
+//var_dump($options);
             $table->out($options->pagesize, true);
         }
 

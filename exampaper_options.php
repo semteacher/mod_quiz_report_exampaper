@@ -89,6 +89,8 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         } else {
             $toform->cheader['text']    = get_string('exampapercheaderdefault', 'quiz_exampaper', $a);
             $toform->cfooter['text']    = get_string('exampapercfooterdefault', 'quiz_exampaper', $a);
+            $this->cheadertext = get_string('exampapercheaderdefault', 'quiz_exampaper', $a);
+            $this->cfootertext = get_string('exampapercfooterdefault', 'quiz_exampaper', $a);
         }
         
         return $toform;

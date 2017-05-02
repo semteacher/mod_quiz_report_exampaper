@@ -402,11 +402,38 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
         }
     }
     
+    /**
+     * This function is not part of the public api.
+     * You don't normally need to call this. It is called automatically when
+     * needed when you start adding data to the table.
+     *
+     */
+    function start_output() {
+        $this->started_output = true;
+        if ($this->exportclass!==null) {
+            $this->exportclass->start_table($this->sheettitle);
+            //$this->exportclass->output_headers($this->headers); //old origin call
+            \dataformat_doc\writer::write_document_header($this->filename);            
+            \dataformat_doc\writer::write_div($this->options->cheadertext);
+            \dataformat_doc\writer::write_table_header($this->headers);
+        } else {
+            $this->start_html();
+            $this->print_headers();
+            echo html_writer::start_tag('tbody');
+        }
+    }
+
+    /**
+     * You should call this to finish outputting the table data after adding
+     * data to the table with add_data or add_data_keyed.
+     *
+     */
     function finish_output($closeexportclassdoc = true) {
         if ($this->exportclass!==null) {
-//var_dump($this->exportclass);
-            //$this->exportclass->finish_table();                        
-            \dataformat_doc\writer::st_write_footer(array('docfooter'=>$this->options->cfootertext));
+            //$this->exportclass->finish_table(); //old origin call
+            \dataformat_doc\writer::write_table_end();
+            \dataformat_doc\writer::write_div($this->options->cfootertext);
+            \dataformat_doc\writer::write_document_end();
 
             if ($closeexportclassdoc) {
                 $this->exportclass->finish_document();

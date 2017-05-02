@@ -29,6 +29,7 @@ require_once($CFG->dirroot . '/mod/quiz/report/attemptsreport.php');
 require_once($CFG->dirroot . '/mod/quiz/report/exampaper/exampaper_options.php');
 require_once($CFG->dirroot . '/mod/quiz/report/exampaper/exampaper_form.php');
 require_once($CFG->dirroot . '/mod/quiz/report/exampaper/exampaper_table.php');
+//require_once($CFG->dirroot . '/mod/quiz/report/exampaper/reportlib.php');
 
 
 /**
@@ -66,8 +67,10 @@ class quiz_exampaper_report extends quiz_attempts_report {
                 array('context' => context_course::instance($course->id)));
         $table = new quiz_exampaper_table($quiz, $this->context, $this->qmsubselect,
                 $options, $groupstudentsjoins, $studentsjoins, $questions, $options->get_url());
-        $filename = quiz_report_download_filename(get_string('exampaperfilename', 'quiz_exampaper'),
-                $courseshortname, $quiz->name);
+        //$filename = quiz_report_download_filename(get_string('exampaperfilename', 'quiz_exampaper'),
+        //        $courseshortname, $quiz->name);
+        $filename = $this->quiz_report_download_groupfilename(get_string('exampaperfilename', 'quiz_exampaper'),
+                $courseshortname, $quiz->name, $options->group);
         $table->is_downloading($options->download, $filename,
                 $courseshortname . ' ' . format_string($quiz->name, true));
         if ($table->is_downloading()) {
@@ -629,5 +632,15 @@ class quiz_exampaper_report extends quiz_attempts_report {
         quiz_update_all_final_grades($quiz);
         quiz_update_grades($quiz);
     }
+    
+    protected function quiz_report_download_groupfilename($report, $courseshortname, $quizname, $groupid) {
+        if ($groupid > 0) {
+            $groupname = groups_get_group_name($groupid);
+        } else {
+            $groupname = 'all';
+        }
+        return $courseshortname . '-' . format_string($quizname, true) . '-' . $groupname . '-' . $report;
+    
+}
 
 }

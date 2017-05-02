@@ -80,8 +80,7 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $a= new stdClass();
         $a->groupname = groups_get_group_name($this->group);
 
-        if ($saved_colontitles) {
-//var_dump($saved_colontitles);        
+        if ($saved_colontitles) {        
             $toform->cheader['text']    = $saved_colontitles->cheader;
             $toform->cfooter['text']    = $saved_colontitles->cfooter;
             $toform->cheader['format']  = $saved_colontitles->cheaderformat;
@@ -122,7 +121,6 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $this->cfootertext    = optional_param('cfooter[text]', $this->cfootertext, PARAM_RAW);
         $this->cheaderformat  = optional_param('cheader[format]', $this->cheaderformat, PARAM_INT);        
         $this->cfoterformat   = optional_param('cfooter[format]', $this->cfoterformat, PARAM_INT);
-//var_dump($this);        
     }
 
     public function setup_from_user_preferences() {

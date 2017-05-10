@@ -341,7 +341,52 @@ class quiz_exampaper_report extends quiz_attempts_report {
         $transaction = $DB->start_delegated_transaction();
         $DB->delete_records('quiz_exampaper_colontitles', array('quizid'=>$quiz->id));
         $transaction->allow_commit();
-    }    
+    }
+    
+    /**
+     * Add all the user-related columns to the $columns and $headers arrays.
+     * @param table_sql $table the table being constructed.
+     * @param array $columns the list of columns. Added to.
+     * @param array $headers the columns headings. Added to.
+     */
+    protected function add_user_columns($table, &$columns, &$headers) {
+        global $CFG;
+        if (!$table->is_downloading() && $CFG->grade_report_showuserimage) {
+            $columns[] = 'picture';
+            $headers[] = '';
+        }
+        if (!$table->is_downloading()) {
+            $columns[] = 'fullname';
+            $headers[] = get_string('name');
+        } else {
+            $columns[] = 'lastname';
+            $headers[] = get_string('lastname');
+            $columns[] = 'firstname';
+            $headers[] = get_string('firstname');
+        }
+
+        // When downloading, some extra fields are always displayed (because
+        // there's no space constraint) so do not include in extra-field list.
+        //$extrafields = get_extra_user_fields($this->context,
+        //        $table->is_downloading() ? array('institution', 'department', 'email') : array());
+        $extrafields = get_extra_user_fields($this->context,
+                $table->is_downloading() ? array('email') : array());
+        foreach ($extrafields as $field) {
+            $columns[] = $field;
+            $headers[] = get_user_field_name($field);
+        }
+
+        if ($table->is_downloading()) {
+           // $columns[] = 'institution';
+           // $headers[] = get_string('institution');
+
+            //$columns[] = 'department';
+            //$headers[] = get_string('department');
+
+            $columns[] = 'email';
+            $headers[] = get_string('email');
+        }
+    }
     
     /**
      * Check necessary capabilities, and start the display of the regrade progress page.

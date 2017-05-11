@@ -355,15 +355,15 @@ class quiz_exampaper_report extends quiz_attempts_report {
             $columns[] = 'picture';
             $headers[] = '';
         }
-        if (!$table->is_downloading()) {
+        //if (!$table->is_downloading()) {
             $columns[] = 'fullname';
             $headers[] = get_string('name');
-        } else {
-            $columns[] = 'lastname';
-            $headers[] = get_string('lastname');
-            $columns[] = 'firstname';
-            $headers[] = get_string('firstname');
-        }
+        //} else {
+        //    $columns[] = 'lastname';
+        //    $headers[] = get_string('lastname');
+        //    $columns[] = 'firstname';
+        //    $headers[] = get_string('firstname');
+        //}
 
         // When downloading, some extra fields are always displayed (because
         // there's no space constraint) so do not include in extra-field list.

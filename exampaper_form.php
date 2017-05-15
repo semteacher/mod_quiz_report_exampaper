@@ -41,13 +41,15 @@ class quiz_exampaper_settings_form extends moodleform {
         
         $mform = $this->_form;
         
-        //tdmu-remove defaults
-//        $mform->addElement('header', 'preferencespage',
-//                get_string('reportwhattoinclude', 'quiz'));
+        $mform->addElement('header', 'preferencespage',
+                get_string('reportwhattoinclude', 'quiz'));
 
-//        $this->standard_attempt_fields($mform);
-//        $this->other_attempt_fields($mform);
+        $this->standard_attempt_fields($mform);
+        $this->other_attempt_fields($mform);
 
+        $mform->addElement('submit', 'submitbutton',
+                get_string('showreport', 'quiz'));
+                
         $mform->addElement('header', 'preferencesuser',
                 get_string('exampapercolontitlesdisplayoptions', 'quiz_exampaper'));
 
@@ -55,7 +57,7 @@ class quiz_exampaper_settings_form extends moodleform {
         $this->other_preference_fields($mform);
 
         $mform->addElement('submit', 'savecolontitles',
-                get_string('exampapersavecolontitles', 'quiz_exampaper'));        
+                get_string('exampapersavecolontitles', 'quiz_exampaper'));
         $mform->addElement('cancel', 'resetcolontitles',
                 get_string('exampaperesetcolontitles', 'quiz_exampaper'));
         $PAGE->requires->event_handler('#id_resetcolontitles', 'click', 'M.util.show_confirm_dialog',
@@ -63,9 +65,47 @@ class quiz_exampaper_settings_form extends moodleform {
     }
 
     protected function standard_attempt_fields(MoodleQuickForm $mform) {
+    
+        $mform->addElement('select', 'attempts', get_string('reportattemptsfrom', 'quiz'), array(
+                    quiz_attempts_report::ENROLLED_WITH    => get_string('reportuserswith', 'quiz'),
+                    quiz_attempts_report::ENROLLED_WITHOUT => get_string('reportuserswithout', 'quiz'),
+                    quiz_attempts_report::ENROLLED_ALL     => get_string('reportuserswithorwithout', 'quiz'),
+                    quiz_attempts_report::ALL_WITH        => get_string('reportusersall', 'quiz'),
+                 ));
+
+        $stategroup = array(
+            $mform->createElement('advcheckbox', 'stateinprogress', '',
+                    get_string('stateinprogress', 'quiz')),
+            $mform->createElement('advcheckbox', 'stateoverdue', '',
+                    get_string('stateoverdue', 'quiz')),
+            $mform->createElement('advcheckbox', 'statefinished', '',
+                    get_string('statefinished', 'quiz')),
+            $mform->createElement('advcheckbox', 'stateabandoned', '',
+                    get_string('stateabandoned', 'quiz')),
+        );
+        $mform->addGroup($stategroup, 'stateoptions',
+                get_string('reportattemptsthatare', 'quiz'), array(' '), false);
+        $mform->setDefault('stateinprogress', 1);
+        $mform->setDefault('stateoverdue',    1);
+        $mform->setDefault('statefinished',   1);
+        $mform->setDefault('stateabandoned',  1);
+        $mform->disabledIf('stateinprogress', 'attempts', 'eq', quiz_attempts_report::ENROLLED_WITHOUT);
+        $mform->disabledIf('stateoverdue',    'attempts', 'eq', quiz_attempts_report::ENROLLED_WITHOUT);
+        $mform->disabledIf('statefinished',   'attempts', 'eq', quiz_attempts_report::ENROLLED_WITHOUT);
+        $mform->disabledIf('stateabandoned',  'attempts', 'eq', quiz_attempts_report::ENROLLED_WITHOUT);
+
+        if (quiz_report_can_filter_only_graded($this->_customdata['quiz'])) {
+            $gm = html_writer::tag('span',
+                    quiz_get_grading_option_name($this->_customdata['quiz']->grademethod),
+                    array('class' => 'highlight'));
+            $mform->addElement('advcheckbox', 'onlygraded', '',
+                    get_string('reportshowonlyfinished', 'quiz', $gm));
+            $mform->disabledIf('onlygraded', 'attempts', 'eq', quiz_attempts_report::ENROLLED_WITHOUT);
+            $mform->disabledIf('onlygraded', 'statefinished', 'notchecked');
+        }
     }
 
-    protected function other_attempt_fields(MoodleQuickForm $mform) {
+    protected function other_attempt_fields(MoodleQuickForm $mform) {  
     }
 
     protected function standard_preference_fields(MoodleQuickForm $mform) {
@@ -73,8 +113,8 @@ class quiz_exampaper_settings_form extends moodleform {
         $mform->setType('slotmarks', PARAM_INT);
         $mform->addElement('hidden', 'pagesize', quiz_attempts_report::DEFAULT_PAGE_SIZE);
         $mform->setType('pagesize', PARAM_INT);
-        $mform->addElement('hidden', 'attempts', quiz_attempts_report::ENROLLED_ALL);
-        $mform->setType('attempts', PARAM_TEXT);
+        //$mform->addElement('hidden', 'attempts', quiz_attempts_report::ENROLLED_ALL);
+        //$mform->setType('attempts', PARAM_TEXT);
     }
 
     protected function other_preference_fields(MoodleQuickForm $mform) {
@@ -93,6 +133,12 @@ class quiz_exampaper_settings_form extends moodleform {
 
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
+
+        if ($data['attempts'] != quiz_attempts_report::ENROLLED_WITHOUT && !(
+                $data['stateinprogress'] || $data['stateoverdue'] || $data['statefinished'] || $data['stateabandoned'])) {
+            $errors['stateoptions'] = get_string('reportmustselectstate', 'quiz');
+        }
+        
         return $errors;
     }
 }

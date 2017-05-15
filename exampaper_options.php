@@ -40,7 +40,7 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
     public $onlyregraded = false;
 
     /** @var bool whether to show marks for each question (slot). */
-    public $slotmarks = true;
+    public $slotmarks = false;
     
     //tdmu-force display all enrolled users
     public $attempts = quiz_attempts_report::ENROLLED_ALL;

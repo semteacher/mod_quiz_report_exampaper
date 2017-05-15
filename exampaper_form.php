@@ -55,7 +55,7 @@ class quiz_exampaper_settings_form extends moodleform {
         $this->other_preference_fields($mform);
 
         $mform->addElement('submit', 'savecolontitles',
-                get_string('exampapersavecolontitles', 'quiz_exampaper'));        
+                get_string('exampapersavecolontitles', 'quiz_exampaper'));
         $mform->addElement('cancel', 'resetcolontitles',
                 get_string('exampaperesetcolontitles', 'quiz_exampaper'));
         $PAGE->requires->event_handler('#id_resetcolontitles', 'click', 'M.util.show_confirm_dialog',

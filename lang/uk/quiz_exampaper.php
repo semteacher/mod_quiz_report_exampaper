@@ -15,22 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'quiz_exampaper', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'quiz_exampaper', language 'uk', branch 'MOODLE_20_STABLE'
  *
  * @package   quiz_exampaper
  * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-$string['exampaper'] = 'Exam Grades Paper';
-$string['exampaperdownload'] = 'Download report paper: ';
+$string['exampaper'] = 'Відомість оцінок';
+$string['exampaperdownload'] = 'Завантажити відомість: ';
 $string['exampaperfilename'] = 'examgradespaper';
-$string['exampaperreport'] = 'Exam grades paper report';
-$string['exampapercolontitlesdisplayoptions'] = 'Report colontitles';
-$string['exampapercheader'] = 'Colontitles - report header';
-$string['exampapercfooter'] = 'Colontitles - report footer';
-$string['exampapersavecolontitles'] = 'Save static colontitles';
-$string['exampaperesetcolontitles'] = 'Reset colontitles to default';
+$string['exampaperreport'] = 'звіт Відомість оцінок';
+$string['exampapercolontitlesdisplayoptions'] = 'Колонтитули відомості';
+$string['exampapercheader'] = 'Колонтитули - заголовок відомості';
+$string['exampapercfooter'] = 'Колонтитули - підвал відомості';
+$string['exampapersavecolontitles'] = 'Зберегти статичний заголовок';
+$string['exampaperesetcolontitles'] = 'Відновити динамічний заголовок (по-замовчуванню)';
 $string['exampaperesetcolontitlescofirmation'] = 'Are you absolutely sure? All your changes of the colontites will be completely deleted !';
 $string['exampapercheaderdefault'] = '
 <p style="text-align: center;">МІНІСТЕРСТВО ОХОРОНИ ЗДОРОВ\'Я УКРАЇНИ</p><p style="text-align: center;"><b>Тернопільський державний медичний університет імені І.Я.Горбачевського</b></p><p>

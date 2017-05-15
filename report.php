@@ -171,18 +171,18 @@ class quiz_exampaper_report extends quiz_attempts_report {
                         $a->coursestudents = get_string('participants');
                         $a->countregradeneeded = $regradesneeded;
                         $regradealldrydolabel =
-                                get_string('regradealldrydogroup', 'quiz_exampaper', $a);
+                                get_string('regradealldrydogroup', 'quiz_overview', $a);
                         $regradealldrylabel =
-                                get_string('regradealldrygroup', 'quiz_exampaper', $a);
+                                get_string('regradealldrygroup', 'quiz_overview', $a);
                         $regradealllabel =
-                                get_string('regradeallgroup', 'quiz_exampaper', $a);
+                                get_string('regradeallgroup', 'quiz_overview', $a);
                     } else {
                         $regradealldrydolabel =
-                                get_string('regradealldrydo', 'quiz_exampaper', $regradesneeded);
+                                get_string('regradealldrydo', 'quiz_overview', $regradesneeded);
                         $regradealldrylabel =
-                                get_string('regradealldry', 'quiz_exampaper');
+                                get_string('regradealldry', 'quiz_overview');
                         $regradealllabel =
-                                get_string('regradeall', 'quiz_exampaper');
+                                get_string('regradeall', 'quiz_overview');
                     }
                     $displayurl = new moodle_url($options->get_url(), array('sesskey' => sesskey()));
                     //tdmu-disable regrading
@@ -227,7 +227,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
             if (!$table->is_downloading() && has_capability('mod/quiz:regrade', $this->context) &&
                     $this->has_regraded_questions($from, $where, $params)) {
                 $columns[] = 'regraded';
-                $headers[] = get_string('regrade', 'quiz_exampaper');
+                $headers[] = get_string('regrade', 'quiz_overview');
             }
 
             if ($options->slotmarks) {
@@ -405,7 +405,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
      */
     protected function finish_regrade($nexturl) {
         global $OUTPUT;
-        \core\notification::success(get_string('regradecomplete', 'quiz_exampaper'));
+        \core\notification::success(get_string('regradecomplete', 'quiz_overview'));
         echo $OUTPUT->continue_button($nexturl);
         echo $OUTPUT->footer();
         die();
@@ -524,7 +524,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
             $this->regrade_attempt($attempt, $dryrun);
             $a['done']++;
             $progressbar->update($a['done'], $a['count'],
-                    get_string('regradingattemptxofy', 'quiz_exampaper', $a));
+                    get_string('regradingattemptxofy', 'quiz_overview', $a));
         }
 
         if (!$dryrun) {
@@ -585,7 +585,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
             $this->regrade_attempt($attempt, false, $attemptquestions[$attempt->uniqueid]);
             $a['done']++;
             $progressbar->update($a['done'], $a['count'],
-                    get_string('regradingattemptxofy', 'quiz_exampaper', $a));
+                    get_string('regradingattemptxofy', 'quiz_overview', $a));
         }
 
         $this->update_overall_grades($quiz);

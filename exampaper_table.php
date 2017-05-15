@@ -200,7 +200,7 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
     //tdmu-disable regrade buttons at bottom of table - wrap_html_finish - too
 //        if (has_capability('mod/quiz:regrade', $this->context)) {
 //            echo '<input type="submit" class="btn btn-secondary m-r-1" name="regrade" value="' .
-//                    get_string('regradeselected', 'quiz_exampaper') . '"/>';
+//                    get_string('regradeselected', 'quiz_overview') . '"/>';
 //        }
 //        parent::submit_buttons();
     }
@@ -299,9 +299,9 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
         if ($attempt->regraded == '') {
             return '';
         } else if ($attempt->regraded == 0) {
-            return get_string('needed', 'quiz_exampaper');
+            return get_string('needed', 'quiz_overview');
         } else if ($attempt->regraded == 1) {
-            return get_string('done', 'quiz_exampaper');
+            return get_string('done', 'quiz_overview');
         }
     }
 

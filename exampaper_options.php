@@ -80,17 +80,20 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $a= new stdClass();
         $a->groupname = groups_get_group_name($this->group);
 
-        if ($saved_colontitles) {        
-            $toform->cheader['text']    = $saved_colontitles->cheader;
-            $toform->cfooter['text']    = $saved_colontitles->cfooter;
-            $toform->cheader['format']  = $saved_colontitles->cheaderformat;
-            $toform->cfooter['format']  = $saved_colontitles->cfooterformat;
+        if ($saved_colontitles) {
+            $this->cheadertext    = $saved_colontitles->cheader;
+            $this->cfootertext    = $saved_colontitles->cfooter;
+            $this->cheaderformat  = $saved_colontitles->cheaderformat;
+            $this->cfoterformat   = $saved_colontitles->cfooterformat;            
         } else {
-            $toform->cheader['text']    = get_string('exampapercheaderdefault', 'quiz_exampaper', $a);
-            $toform->cfooter['text']    = get_string('exampapercfooterdefault', 'quiz_exampaper', $a);
             $this->cheadertext = get_string('exampapercheaderdefault', 'quiz_exampaper', $a);
             $this->cfootertext = get_string('exampapercfooterdefault', 'quiz_exampaper', $a);
         }
+        
+        $toform->cheader['text']    = $this->cheadertext;
+        $toform->cfooter['text']    = $this->cfootertext;
+        $toform->cheader['format']  = $this->cheaderformat;
+        $toform->cfooter['format']  = $this->cfoterformat;
         
         return $toform;
     }

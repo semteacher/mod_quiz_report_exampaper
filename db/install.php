@@ -33,7 +33,7 @@ function xmldb_quiz_exampaper_install() {
 
     $record = new stdClass();
     $record->name         = 'exampaper';
-    $record->displayorder = '10000';
+    $record->displayorder = '9500';
 
     $DB->insert_record('quiz_reports', $record);
 }

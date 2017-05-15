@@ -15,42 +15,84 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file defines the setting form for the quiz exampaper report.
+ * Base class for the settings form for {@link quiz_attempts_report}s.
  *
  * @package   quiz_exampaper
- * @copyright 2008 Jamie Pratt
+ * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/mod/quiz/report/attemptsreport_form.php');
+require_once($CFG->libdir . '/formslib.php');
 
 
 /**
- * Quiz exampaper report settings form.
+ * Base class for the settings form for {@link quiz_attempts_report}s.
  *
- * @copyright 2008 Jamie Pratt
+ * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class quiz_exampaper_settings_form extends mod_quiz_attempts_report_form {
+class quiz_exampaper_settings_form extends moodleform {
+
+    protected function definition() {
+        global $PAGE;
+        
+        $mform = $this->_form;
+        
+        //tdmu-remove defaults
+//        $mform->addElement('header', 'preferencespage',
+//                get_string('reportwhattoinclude', 'quiz'));
+
+//        $this->standard_attempt_fields($mform);
+//        $this->other_attempt_fields($mform);
+
+        $mform->addElement('header', 'preferencesuser',
+                get_string('exampapercolontitlesdisplayoptions', 'quiz_exampaper'));
+
+        $this->standard_preference_fields($mform);
+        $this->other_preference_fields($mform);
+
+        $mform->addElement('submit', 'savecolontitles',
+                get_string('exampapersavecolontitles', 'quiz_exampaper'));        
+        $mform->addElement('cancel', 'resetcolontitles',
+                get_string('exampaperesetcolontitles', 'quiz_exampaper'));
+        $PAGE->requires->event_handler('#id_resetcolontitles', 'click', 'M.util.show_confirm_dialog',
+                    array('message' => get_string('exampaperesetcolontitlescofirmation', 'quiz_exampaper')));
+    }
+
+    protected function standard_attempt_fields(MoodleQuickForm $mform) {
+    }
 
     protected function other_attempt_fields(MoodleQuickForm $mform) {
-        if (has_capability('mod/quiz:regrade', $this->_customdata['context'])) {
-            $mform->addElement('advcheckbox', 'onlyregraded', get_string('reportshowonly', 'quiz'),
-                    get_string('optonlyregradedattempts', 'quiz_exampaper'));
-            $mform->disabledIf('onlyregraded', 'attempts', 'eq', quiz_attempts_report::ENROLLED_WITHOUT);
-        }
+    }
+
+    protected function standard_preference_fields(MoodleQuickForm $mform) {
+        $mform->addElement('hidden', 'slotmarks', 0);
+        $mform->setType('slotmarks', PARAM_INT);
+        $mform->addElement('hidden', 'pagesize', quiz_attempts_report::DEFAULT_PAGE_SIZE);
+        $mform->setType('pagesize', PARAM_INT);
+        $mform->addElement('hidden', 'attempts', quiz_attempts_report::ENROLLED_ALL);
+        $mform->setType('attempts', PARAM_TEXT);
     }
 
     protected function other_preference_fields(MoodleQuickForm $mform) {
-        if (quiz_has_grades($this->_customdata['quiz'])) {
-            $mform->addElement('selectyesno', 'slotmarks',
-                    get_string('showdetailedmarks', 'quiz_exampaper'));
-        } else {
-            $mform->addElement('hidden', 'slotmarks', 0);
-            $mform->setType('slotmarks', PARAM_INT);
-        }
+		// cheader editor.
+        $mform->addElement('editor', 'cheader',
+                get_string('exampapercheader', 'quiz_exampaper'), array('rows' => 5), array('maxfiles' => EDITOR_UNLIMITED_FILES,
+                        'noclean' => true, 'enable_filemanagement' => true));
+        $mform->setType('cheader', PARAM_RAW);
+
+		// cfooter editor.
+        $mform->addElement('editor', 'cfooter',
+                get_string('exampapercfooter', 'quiz_exampaper'), array('rows' => 5), array('maxfiles' => EDITOR_UNLIMITED_FILES,
+                        'noclean' => true, 'enable_filemanagement' => true));
+        $mform->setType('cfooter', PARAM_RAW);        
+    }
+
+    public function validation($data, $files) {
+        $errors = parent::validation($data, $files);
+        return $errors;
     }
 }

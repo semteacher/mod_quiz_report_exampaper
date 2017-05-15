@@ -29,6 +29,7 @@ require_once($CFG->dirroot . '/mod/quiz/report/attemptsreport.php');
 require_once($CFG->dirroot . '/mod/quiz/report/exampaper/exampaper_options.php');
 require_once($CFG->dirroot . '/mod/quiz/report/exampaper/exampaper_form.php');
 require_once($CFG->dirroot . '/mod/quiz/report/exampaper/exampaper_table.php');
+//require_once($CFG->dirroot . '/mod/quiz/report/exampaper/reportlib.php');
 
 
 /**
@@ -49,18 +50,14 @@ class quiz_exampaper_report extends quiz_attempts_report {
 
         if ($fromform = $this->form->get_data()) {
             $options->process_settings_from_form($fromform);
-
         } else {
             $options->process_settings_from_params();
         }
 
         $this->form->set_data($options->get_initial_form_data());
-//var_dump($options->attempts);
-//        if (!is_null($options->attempts)) {
-//            $options->attempts = self::ENROLLED_ALL;
-//        }
+
         //tdmu-force display all enrolled users
-        $options->attempts = self::ENROLLED_ALL;
+        //$options->attempts = self::ENROLLED_ALL;
         
         // Load the required questions.
         $questions = quiz_report_get_significant_questions($quiz);
@@ -70,8 +67,10 @@ class quiz_exampaper_report extends quiz_attempts_report {
                 array('context' => context_course::instance($course->id)));
         $table = new quiz_exampaper_table($quiz, $this->context, $this->qmsubselect,
                 $options, $groupstudentsjoins, $studentsjoins, $questions, $options->get_url());
-        $filename = quiz_report_download_filename(get_string('exampaperfilename', 'quiz_exampaper'),
-                $courseshortname, $quiz->name);
+        //$filename = quiz_report_download_filename(get_string('exampaperfilename', 'quiz_exampaper'),
+        //        $courseshortname, $quiz->name);
+        $filename = $this->quiz_report_download_groupfilename(get_string('exampaperfilename', 'quiz_exampaper'),
+                $courseshortname, $quiz->name, $options->group);
         $table->is_downloading($options->download, $filename,
                 $courseshortname . ' ' . format_string($quiz->name, true));
         if ($table->is_downloading()) {
@@ -136,8 +135,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
             }
 
             // Print the display options.
-            //tdmu-disable options form
-//            $this->form->display();
+            $this->form->display();
         }
 
         $hasstudents = $hasstudents && (!$currentgroup || $this->hasgroupstudents);
@@ -250,7 +248,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
 
             $this->set_up_table_columns($table, $columns, $headers, $this->get_base_url(), $options, false);
             $table->set_attribute('class', 'generaltable generalbox grades');
-
+//var_dump($options);
             $table->out($options->pagesize, true);
         }
 
@@ -296,8 +294,100 @@ class quiz_exampaper_report extends quiz_attempts_report {
             $this->regrade_attempts_needing_it($quiz, $groupstudentsjoins);
             $this->finish_regrade($redirecturl);
         }
+
+        if (optional_param('savecolontitles', '', PARAM_TEXT) && confirm_sesskey()) {
+            $this->savecolontitles($quiz);
+        }
+        
+        if (optional_param('resetcolontitles', '', PARAM_TEXT) && confirm_sesskey()) {
+            //var_dump($redirecturl);
+            $this->resetcolontitles($quiz);
+            redirect($redirecturl);
+        }
+                
     }
 
+    protected function savecolontitles($quiz) {
+        global $DB;
+        
+        if ($formdata = $this->form->get_data()) {
+
+        $colontitles = new stdClass();
+        $colontitles->quizid = $quiz->id;
+        $colontitles->cheader = $formdata->cheader['text'];
+        $colontitles->cfooter = $formdata->cfooter['text'];
+        $colontitles->cheaderformat = $formdata->cheader['format'];
+        $colontitles->cfooterformat = $formdata->cfooter['format'];
+        
+        $transaction = $DB->start_delegated_transaction();
+        
+        $saved_colontitles = $DB->get_record('quiz_exampaper_colontitles', array('quizid'=>$quiz->id));
+//var_dump($saved_colontitles);        
+        if ($saved_colontitles) {
+            $colontitles->id = $saved_colontitles->id;
+            $DB->update_record('quiz_exampaper_colontitles', $colontitles, false);
+        } else {
+            $DB->insert_record('quiz_exampaper_colontitles', $colontitles, false);
+        }
+        
+        $transaction->allow_commit();
+//die();        
+}
+    }
+    
+    protected function resetcolontitles($quiz) {
+        global $DB;
+        
+        $transaction = $DB->start_delegated_transaction();
+        $DB->delete_records('quiz_exampaper_colontitles', array('quizid'=>$quiz->id));
+        $transaction->allow_commit();
+    }
+    
+    /**
+     * Add all the user-related columns to the $columns and $headers arrays.
+     * @param table_sql $table the table being constructed.
+     * @param array $columns the list of columns. Added to.
+     * @param array $headers the columns headings. Added to.
+     */
+    protected function add_user_columns($table, &$columns, &$headers) {
+        global $CFG;
+        if (!$table->is_downloading() && $CFG->grade_report_showuserimage) {
+            $columns[] = 'picture';
+            $headers[] = '';
+        }
+        //if (!$table->is_downloading()) {
+            $columns[] = 'fullname';
+            $headers[] = get_string('name');
+        //} else {
+        //    $columns[] = 'lastname';
+        //    $headers[] = get_string('lastname');
+        //    $columns[] = 'firstname';
+        //    $headers[] = get_string('firstname');
+        //}
+
+        // When downloading, some extra fields are always displayed (because
+        // there's no space constraint) so do not include in extra-field list.
+        //$extrafields = get_extra_user_fields($this->context,
+        //        $table->is_downloading() ? array('institution', 'department', 'email') : array());
+        $extrafields = get_extra_user_fields($this->context,
+                $table->is_downloading() ? array('email') : array());
+        foreach ($extrafields as $field) {
+            $columns[] = $field;
+            $headers[] = get_user_field_name($field);
+        }
+
+        if ($table->is_downloading()) {
+           // $columns[] = 'institution';
+           // $headers[] = get_string('institution');
+
+            //$columns[] = 'department';
+            //$headers[] = get_string('department');
+
+            $columns[] = 'email';
+            $headers[] = get_string('email');
+        }
+    }
+    
     /**
      * Check necessary capabilities, and start the display of the regrade progress page.
      * @param object $quiz the quiz settings.
@@ -587,5 +677,15 @@ class quiz_exampaper_report extends quiz_attempts_report {
         quiz_update_all_final_grades($quiz);
         quiz_update_grades($quiz);
     }
+    
+    protected function quiz_report_download_groupfilename($report, $courseshortname, $quizname, $groupid) {
+        if ($groupid > 0) {
+            $groupname = groups_get_group_name($groupid);
+        } else {
+            $groupname = 'all';
+        }
+        return $courseshortname . '-' . format_string($quizname, true) . '-' . $groupname . '-' . $report;
+    
+}
 
 }

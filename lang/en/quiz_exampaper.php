@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -42,10 +42,6 @@ $string['optallstudents'] = 'all {$a} who have or have not attempted the quiz';
 $string['optattemptsonly'] = '{$a} who have attempted the quiz';
 $string['optnoattemptsonly'] = '{$a} who have not attempted the quiz';
 $string['optonlyregradedattempts'] = 'that have been regraded / are marked as needing regrading';
-$string['exampaper'] = 'Exam Grades Paper';
-$string['exampaperdownload'] = 'Exam grades download';
-$string['exampaperfilename'] = 'examgradespaper';
-$string['exampaperreport'] = 'Exam grades paper report';
 $string['pagesize'] = 'Page size';
 $string['pluginname'] = 'Exam Grades Paper';
 $string['preferencespage'] = 'Preferences just for this page';
@@ -69,3 +65,40 @@ $string['showinggraded'] = 'Showing only the attempt graded for each user.';
 $string['showinggradedandungraded'] = 'Showing graded and ungraded attempts for each user. The one attempt for each user that is graded is highlighted. The grading method for this quiz is {$a}.';
 $string['studentingroup'] = '\'{$a->coursestudent}\' in group \'{$a->groupname}\'';
 $string['studentingrouplong'] = '\'{$a->coursestudent}\' in this group';
+
+$string['exampaper'] = 'Exam Grades Paper';
+$string['exampaperdownload'] = 'Download report paper: ';
+$string['exampaperfilename'] = 'examgradespaper';
+$string['exampaperreport'] = 'Exam grades paper report';
+$string['exampapercolontitlesdisplayoptions'] = 'Report colontitles';
+$string['exampapercheader'] = 'Colontitles - report header';
+$string['exampapercfooter'] = 'Colontitles - report footer';
+$string['exampapersavecolontitles'] = 'Save static colontitles';
+$string['exampaperesetcolontitles'] = 'Reset colontitles to default';
+$string['exampaperesetcolontitlescofirmation'] = 'Are you absolutely sure? All your changes of the colontites will be completely deleted !';
+$string['exampapercheaderdefault'] = '
+<p style="text-align: center;">МІНІСТЕРСТВО ОХОРОНИ ЗДОРОВ\'Я УКРАЇНИ</p><p style="text-align: center;"><b>Тернопільський державний медичний університет імені І.Я.Горбачевського</b></p><p>
+</p><table>
+<tbody>
+<tr>
+<td scope="col">Факультет _____________________________________</td>
+<td scope="col"></td>
+<td scope="col" style="text-align: right;"><br></td>
+</tr>
+<tr>
+<td>Спеціальність _________________________________</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Група {$a->groupname}</td>
+<td>2016/2017 н.р.</td>
+<td>Курс ____</td>
+</tr>
+</tbody>
+</table>
+<h4 style="text-align: center;">ЕКЗАМЕНАЦІЙНА ВІДОМІСТЬ № _________</h4><p>з _______________________________________</p><p>за ______ семестр, ______________ _____________<br><br><p></p></p>
+';
+$string['exampapercfooterdefault'] = '
+<p>Голова комісії ____________________________________________________<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(вчені звання, прізвище та ініціали) &nbsp; &nbsp;(підпис)</p><p>Члени комісії&nbsp;____________________________________________________<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(вчені звання, прізвище та ініціали) &nbsp; &nbsp;(підпис)<br></p><p>_______________________________________________________________</p><p>_______________________________________________________________<br></p><p>1. Навпроти прізвища студента, який не з\'явився на підсумковий контроль, екзаменатор вказує - "не з\'явився"<br>2. Відомість подається в деканат не пізніше наступного дня після проведення підсумкового контролю.</p>
+';

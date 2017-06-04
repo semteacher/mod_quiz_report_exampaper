@@ -357,7 +357,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
         }
         //if (!$table->is_downloading()) {
             $columns[] = 'fullname';
-            $headers[] = get_string('name');
+            $headers[] = get_string('firstname').', '.get_string('lastname');
         //} else {
         //    $columns[] = 'lastname';
         //    $headers[] = get_string('lastname');

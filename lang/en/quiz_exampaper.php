@@ -34,27 +34,18 @@ $string['exampaperesetcolontitles'] = 'Reset colontitles to default';
 $string['exampaperesetcolontitlescofirmation'] = 'Are you absolutely sure? All your changes of the colontites will be completely deleted !';
 $string['exampapercheaderdefault'] = '
 <p style="text-align: center;">МІНІСТЕРСТВО ОХОРОНИ ЗДОРОВ\'Я УКРАЇНИ</p><p style="text-align: center;"><b>Тернопільський державний медичний університет імені І.Я.Горбачевського</b></p><p>
-</p><table>
-<tbody>
-<tr>
-<td scope="col">Факультет _____________________________________</td>
-<td scope="col"></td>
-<td scope="col" style="text-align: right;"><br></td>
-</tr>
-<tr>
-<td>Спеціальність _________________________________</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Група {$a->groupname}</td>
-<td>2016/2017 н.р.</td>
-<td>Курс ____</td>
-</tr>
-</tbody>
-</table>
-<h4 style="text-align: center;">ЕКЗАМЕНАЦІЙНА ВІДОМІСТЬ № _________</h4><p>з _______________________________________</p><p>за ______ семестр, ______________ _____________<br><br><p></p></p>
+</p>
+<p style="text-align: left;">Факультет: {$a->facultyname}</p>
+<p style="text-align: left;">Спеціальність: {$a->specialityname}</p>
+<p><span>Група: {$a->groupname}</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span>20____/20____ н.р.</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span>Курс ____</span></p>
+<h4 style="text-align: center;">ЕКЗАМЕНАЦІЙНА ВІДОМІСТЬ № _________</h4>
+<p>з {$a->subjectname}</p>
+<p>за ______ семестр, ______________ _____________<br><br><p></p></p>
 ';
 $string['exampapercfooterdefault'] = '
-<p>Голова комісії ____________________________________________________<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(вчені звання, прізвище та ініціали) &nbsp; &nbsp;(підпис)</p><p>Члени комісії&nbsp;____________________________________________________<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(вчені звання, прізвище та ініціали) &nbsp; &nbsp;(підпис)<br></p><p>_______________________________________________________________</p><p>_______________________________________________________________<br></p><p>1. Навпроти прізвища студента, який не з\'явився на підсумковий контроль, екзаменатор вказує - "не з\'явився"<br>2. Відомість подається в деканат не пізніше наступного дня після проведення підсумкового контролю.</p>
+<p>Голова комісії ____________________________________________________<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(вчені звання, прізвище та ініціали) &nbsp; &nbsp;(підпис)</p>
+<p>Члени комісії&nbsp;____________________________________________________<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(вчені звання, прізвище та ініціали) &nbsp; &nbsp;(підпис)<br></p>
+<p>_______________________________________________________________</p>
+<p>_______________________________________________________________<br></p>
+<p>1. Навпроти прізвища студента, який не з\'явився на підсумковий контроль, екзаменатор вказує - "не з\'явився"<br>2. Відомість подається в деканат не пізніше наступного дня після проведення підсумкового контролю.</p>
 ';

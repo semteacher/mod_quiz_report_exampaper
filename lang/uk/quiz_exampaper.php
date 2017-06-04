@@ -34,17 +34,17 @@ $string['exampaperesetcolontitlescofirmation'] = 'Are you absolutely sure? All y
 $string['exampapercheaderdefault'] = '
 <p style="text-align: center;">МІНІСТЕРСТВО ОХОРОНИ ЗДОРОВ\'Я УКРАЇНИ</p><p style="text-align: center;"><b>Тернопільський державний медичний університет імені І.Я.Горбачевського</b></p><p>
 </p>
-<p style="text-align: left;">Факультет: {$a->facultyname}</p>
-<p style="text-align: left;">Спеціальність: {$a->specialityname}</p>
-<p><span>Група: {$a->groupname}</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span>20____/20____ н.р.</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span>Курс ____</span></p>
+<p style="text-align: left;">Факультет: {$a->facultyname}<br>
+Спеціальність: {$a->specialityname}<br>
+Група: {$a->groupname}</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span>20____/20____ н.р.</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span>Курс ____</span></p>
 <h4 style="text-align: center;">ЕКЗАМЕНАЦІЙНА ВІДОМІСТЬ № _________</h4>
-<p>з {$a->subjectname}</p>
-<p>за ______ семестр, ______________ _____________<br><br><p></p></p>
+<p>з {$a->subjectname}<br>
+за ______ семестр, ______________ _____________</p>
 ';
 $string['exampapercfooterdefault'] = '
-<p>Голова комісії ____________________________________________________<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(вчені звання, прізвище та ініціали) &nbsp; &nbsp;(підпис)</p>
-<p>Члени комісії&nbsp;____________________________________________________<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(вчені звання, прізвище та ініціали) &nbsp; &nbsp;(підпис)<br></p>
-<p>_______________________________________________________________</p>
-<p>_______________________________________________________________<br></p>
+<p>Голова комісії ________________________________________________________<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(вчені звання, прізвище та ініціали) &nbsp; &nbsp;(підпис)</p>
+<p>Члени комісії&nbsp;________________________________________________________<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(вчені звання, прізвище та ініціали) &nbsp; &nbsp;(підпис)</p>
+<p>_________________________________________________________________________</p>
+<p>_________________________________________________________________________</p>
 <p>1. Навпроти прізвища студента, який не з\'явився на підсумковий контроль, екзаменатор вказує - "не з\'явився"<br>2. Відомість подається в деканат не пізніше наступного дня після проведення підсумкового контролю.</p>
 ';

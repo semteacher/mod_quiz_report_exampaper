@@ -65,12 +65,19 @@ class quiz_exampaper_report extends quiz_attempts_report {
         // Prepare for downloading, if applicable.
         $courseshortname = format_string($course->shortname, true,
                 array('context' => context_course::instance($course->id)));
+        $coursesection = $DB->get_record('course_sections', array('id'=>$cm->section));
+        if ($coursesection) {
+            $coursesectionname = format_string($coursesection->name, true,
+                array('context' => context_course::instance($course->id)));
+        } else {
+            $coursesectionname = '';
+        }
         $table = new quiz_exampaper_table($quiz, $this->context, $this->qmsubselect,
                 $options, $groupstudentsjoins, $studentsjoins, $questions, $options->get_url());
         //$filename = quiz_report_download_filename(get_string('exampaperfilename', 'quiz_exampaper'),
         //        $courseshortname, $quiz->name);
-        $filename = $this->quiz_report_download_groupfilename(get_string('exampaperfilename', 'quiz_exampaper'),
-                $courseshortname, $quiz->name, $options->group);
+        $filename = $this->quiz_report_download_filename_extended(get_string('exampaperfilename', 'quiz_exampaper'),
+                $courseshortname, $coursesectionname, $quiz->name, $options->group);
         $table->is_downloading($options->download, $filename,
                 $courseshortname . ' ' . format_string($quiz->name, true));
         if ($table->is_downloading()) {
@@ -677,15 +684,31 @@ class quiz_exampaper_report extends quiz_attempts_report {
         quiz_update_all_final_grades($quiz);
         quiz_update_grades($quiz);
     }
-    
-    protected function quiz_report_download_groupfilename($report, $courseshortname, $quizname, $groupid) {
+
+    /**
+     * Create a filename for use when downloading data from a quiz report. It is
+     * expected that this will be passed to flexible_table::is_downloading, which
+     * cleans the filename of bad characters and adds the file extension.
+     * @param string $report the type of report.
+     * @param string $courseshortname the course shortname.
+     * @param string $quizname the quiz name.
+     * @return string the filename.
+    */    
+    protected function quiz_report_download_filename_extended($report, $courseshortname, $coursesectionname, $quizname, $groupid) {
         if ($groupid > 0) {
             $groupname = groups_get_group_name($groupid);
         } else {
             $groupname = 'all';
         }
-        return $courseshortname . '-' . format_string($quizname, true) . '-' . $groupname . '-' . $report;
-    
+        $filename = trim($courseshortname . '-' . $groupname . '-' . format_string($quizname, true) . '-' . $coursesectionname . '-' . $report);
+        
+        return $this->truncate($filename, 200);
 }
+    /**  
+     * Truncate long text (especially - for usage with filenames)
+    */
+    private function truncate($string, $length, $dots = "_") {
+        return (strlen($string) > $length) ? substr($string, 0, $length - strlen($dots)) . $dots : $string;
+    }
 
 }

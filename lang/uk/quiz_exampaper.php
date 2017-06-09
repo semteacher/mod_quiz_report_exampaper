@@ -29,22 +29,78 @@ $string['exampapercolontitlesdisplayoptions'] = 'Колонтитули відо
 $string['exampapercheader'] = 'Колонтитули - заголовок відомості';
 $string['exampapercfooter'] = 'Колонтитули - підвал відомості';
 $string['exampapersavecolontitles'] = 'Зберегти статичний заголовок';
-$string['exampaperesetcolontitles'] = 'Відновити динамічний заголовок (по-замовчуванню)';
-$string['exampaperesetcolontitlescofirmation'] = 'Are you absolutely sure? All your changes of the colontites will be completely deleted !';
+$string['exampaperesetcolontitles'] = 'Відновити заголовок по-замовчуванню';
+$string['exampaperesetcolontitlescofirmation'] = 'Ви впевнені? Всі Ваші зміни колонтитулів будуть втрачені!';
 $string['exampapercheaderdefault'] = '
-<p style="text-align: center;">МІНІСТЕРСТВО ОХОРОНИ ЗДОРОВ\'Я УКРАЇНИ</p><p style="text-align: center;"><b>Тернопільський державний медичний університет імені І.Я.Горбачевського</b></p><p>
-</p>
-<p style="text-align: left;">Факультет: {$a->facultyname}<br>
-Спеціальність: {$a->specialityname}<br>
-Група: {$a->groupname}</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span>20____/20____ н.р.</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span>Курс ____</span></p>
-<h4 style="text-align: center;">ЕКЗАМЕНАЦІЙНА ВІДОМІСТЬ № _________</h4>
-<p>з {$a->subjectname}<br>
-за ______ семестр, ______________ _____________</p>
+<p style="margin:3pt 0pt 3pt 0pt;text-align:center;">МІНІСТЕРСТВО ОХОРОНИ ЗДОРОВ\'Я УКРАЇНИ</p>
+<p style="margin:3pt 0pt 3pt 0pt;text-align:center;"><b>Тернопільський державний медичний університет імені І.Я.Горбачевського</b></p>
+<table border=0 cellspacing=0 cellpadding=0 style="border-collapse:collapse">
+<tbody>
+<tr>
+<td style="width:100pt;border:none;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Факультет</td>
+<td colspan="4" style="border:none;border-bottom:solid windowtext 1.0pt;"></td>
+<td style="border:none;"></td>
+</tr>
+<tr>
+<td style="width:100pt;border:none;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Спеціальність</td>
+<td colspan="4" style="border:none;border-bottom:solid windowtext 1.0pt;"></td>
+<td style="border:none;"></td>
+</tr>
+<tr>
+<td style="width:100pt;border:none;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Навчальний рік</td>
+<td style="text-align:center;width:100pt;border:none;border-bottom:solid windowtext 1.0pt;">2017/2018</td>
+<td style="border:none;text-align:right;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Курс</td>
+<td style="text-align:center;width:50pt;border:none;border-bottom:solid windowtext 1.0pt;"></td>
+<td style="border:none;text-align:right;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Група</td>
+<td style="text-align:center;width:50pt;border:none;border-bottom:solid windowtext 1.0pt;"></td>
+</tr>
+</tbody>
+</table>
+<h4 style="margin:6pt 0pt 6pt 0pt;text-align:center;">ЕКЗАМЕНАЦІЙНА ВІДОМІСТЬ № _________</h4>
+<table border=0 cellspacing=0 cellpadding=0 style="border-collapse:collapse">
+<tbody>
+<tr>
+<td style="width:110pt;border:none;padding:0.05cm 0.1cm 0.05cm 0.1cm;">З (назва дисципліни)</td>
+<td colspan="5" style="border:none;border-bottom:solid windowtext 1.0pt;"></td>
+</tr>
+<tr>
+<td style="border:none;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Семестр</td>
+<td style="text-align:center;width:50pt;border:none;border-bottom:solid windowtext 1.0pt;"></td>
+<td style="border:none;text-align:right;width:100pt;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Форма контролю</td>
+<td style="text-align:center;width:100pt;border:none;border-bottom:solid windowtext 1.0pt;"></td>
+<td style="border:none;text-align:right;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Дата</td>
+<td style="text-align:center;width:90pt;border:none;border-bottom:solid windowtext 1.0pt;"></td>
+</tr>
+</tbody>
+</table>
+<br>
 ';
 $string['exampapercfooterdefault'] = '
-<p>Голова комісії ________________________________________________________<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(вчені звання, прізвище та ініціали) &nbsp; &nbsp;(підпис)</p>
-<p>Члени комісії&nbsp;________________________________________________________<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(вчені звання, прізвище та ініціали) &nbsp; &nbsp;(підпис)</p>
-<p>_________________________________________________________________________</p>
-<p>_________________________________________________________________________</p>
-<p>1. Навпроти прізвища студента, який не з\'явився на підсумковий контроль, екзаменатор вказує - "не з\'явився"<br>2. Відомість подається в деканат не пізніше наступного дня після проведення підсумкового контролю.</p>
+<table border=0 cellspacing=0 cellpadding=0 style="border-collapse:collapse">
+<tbody>
+<tr>
+<td style="width:100pt;border:none;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Голова комісії</td>
+<td style="border:none;border-bottom:solid windowtext 1.0pt;"></td>
+</tr>
+<tr>
+<td style="width:100pt;border:none;padding:0.05cm 0.1cm 0.05cm 0.1cm;"></td>
+<td style="text-align:center;border:none;">(вчені звання, прізвище та ініціали)&nbsp; &nbsp;(підпис)</td>
+</tr>
+<tr>
+<td style="width:100pt;border:none;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Члени комісії</td>
+<td style="border:none;border-bottom:solid windowtext 1.0pt;"></td>
+</tr>
+<tr>
+<td style="width:100pt;border:none;padding:0.05cm 0.1cm 0.05cm 0.1cm;"></td>
+<td style="text-align:center;border:none;">(вчені звання, прізвище та ініціали)&nbsp; &nbsp;(підпис)</td>
+</tr>
+<tr>
+<td colspan="2" style="border:none;border-bottom:solid windowtext 1.0pt;padding:0.1cm 0.1cm 0.1cm 0.1cm;">&nbsp;</td>
+</tr>
+<tr>
+<td colspan="2" style="border:none;border-bottom:solid windowtext 1.0pt;padding:0.1cm 0.1cm 0.1cm 0.1cm;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p style="margin:3pt 0pt 3pt 0pt;">1. Навпроти прізвища студента, який не з\'явився на підсумковий контроль, екзаменатор вказує - "не з\'явився"<br>2. Відомість подається в деканат не пізніше наступного дня після проведення підсумкового контролю.</p>
 ';

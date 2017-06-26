@@ -78,19 +78,19 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
 
         $saved_colontitles = $DB->get_record('quiz_exampaper_colontitles', array('quizid'=>$this->quiz->id));
         
-        //below - TDMU-specific scheme of course/category names!
+        //below - TDMU-specific scheme of course/category names! - not used at a moment
         $coursesection = $DB->get_record('course_sections', array('id'=>$this->cm->section)); //act as subject
         $coursecategory = $DB->get_record('course_categories', array('id'=>$this->course->category)); //act as speciality
-        $categoryparent1 = $DB->get_record('course_categories', array('id'=>$coursecategory->parent)); //act as faculty
+        //$categoryparent1 = $DB->get_record('course_categories', array('id'=>$coursecategory->parent)); //act as faculty
         
         $a= new stdClass();
         $a->groupname = groups_get_group_name($this->group);
         
-        //below - TDMU-specific scheme of course/category names!
+        //below - TDMU-specific scheme of course/category names!  - not used at a moment
         $a->subjectname = $coursesection->name;
         $a->semestername = $this->course->shortname;
         $a->specialityname = $coursecategory->name;
-        $a->facultyname = $categoryparent1->name;
+        //$a->facultyname = $categoryparent1->name;
 
 //var_dump($a);
         if ($saved_colontitles) {

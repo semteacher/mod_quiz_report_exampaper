@@ -442,4 +442,17 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
             $this->finish_html();
         }
     }
+    /**
+     * Generate the display of the checkbox column.
+     * @param object $attempt the table row being output.
+     * @return string HTML content to go inside the td.
+     */
+    public function col_extragrades($attempt) {
+        //if ($attempt->attempt) {
+        //    return '<input type="checkbox" name="attemptid[]" value="'.$attempt->attempt.'" />';
+        //} else {
+        //    return '';
+        //}
+		return '';
+    }
 }

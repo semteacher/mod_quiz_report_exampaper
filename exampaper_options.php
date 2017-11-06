@@ -40,20 +40,74 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
     public $onlyregraded = false;
 
     /** @var bool whether to show marks for each question (slot). */
-    public $slotmarks = true;
+    public $slotmarks = false;
+    
+    //tdmu-force display all enrolled users
+    public $attempts = quiz_attempts_report::ENROLLED_ALL;
+    
+    public $pagesize = 30;
+    
+    public $cheadertext = 'TDMU header';
+    public $cheaderformat = 1;
+    public $cfootertext = 'TDMU footer';
+    public $cfoterformat = 1;
 
     protected function get_url_params() {
         $params = parent::get_url_params();
         $params['onlyregraded'] = $this->onlyregraded;
         $params['slotmarks']    = $this->slotmarks;
+        $params['attempts']     = $this->attempts;
+        $params['pagesize']     = $this->pagesize;
+        
+//        $params['cheader']['text']    = $this->cheadertext;
+//        $params['cheader']['format']  = $this->cheaderformat;
+//        $params['cfooter']['text']    = $this->cfootertext;
+//        $params['cfooter']['format']  = $this->cfoterformat;
+        
         return $params;
     }
 
     public function get_initial_form_data() {
+        global $DB;
+
         $toform = parent::get_initial_form_data();
         $toform->onlyregraded = $this->onlyregraded;
         $toform->slotmarks    = $this->slotmarks;
+        $toform->attempts     = $this->attempts;
+        $toform->pagesize     = $this->pagesize;
 
+        $saved_colontitles = $DB->get_record('quiz_exampaper_colontitles', array('quizid'=>$this->quiz->id));
+        
+        //below - TDMU-specific scheme of course/category names! - not used at a moment
+        $coursesection = $DB->get_record('course_sections', array('id'=>$this->cm->section)); //act as subject
+        $coursecategory = $DB->get_record('course_categories', array('id'=>$this->course->category)); //act as speciality
+        //$categoryparent1 = $DB->get_record('course_categories', array('id'=>$coursecategory->parent)); //act as faculty
+        
+        $a= new stdClass();
+        $a->groupname = groups_get_group_name($this->group);
+        
+        //below - TDMU-specific scheme of course/category names!  - not used at a moment
+        $a->subjectname = $coursesection->name;
+        $a->semestername = $this->course->shortname;
+        $a->specialityname = $coursecategory->name;
+        //$a->facultyname = $categoryparent1->name;
+
+//var_dump($a);
+        if ($saved_colontitles) {
+            $this->cheadertext    = $saved_colontitles->cheader;
+            $this->cfootertext    = $saved_colontitles->cfooter;
+            $this->cheaderformat  = $saved_colontitles->cheaderformat;
+            $this->cfoterformat   = $saved_colontitles->cfooterformat;            
+        } else {
+            $this->cheadertext = get_string('exampapercheaderdefault', 'quiz_exampaper', $a);
+            $this->cfootertext = get_string('exampapercfooterdefault', 'quiz_exampaper', $a);
+        }
+        
+        $toform->cheader['text']    = $this->cheadertext;
+        $toform->cfooter['text']    = $this->cfootertext;
+        $toform->cheader['format']  = $this->cheaderformat;
+        $toform->cfooter['format']  = $this->cfoterformat;
+        
         return $toform;
     }
 
@@ -62,6 +116,13 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
 
         $this->onlyregraded = !empty($fromform->onlyregraded);
         $this->slotmarks    = $fromform->slotmarks;
+        $this->pagesize     = $fromform->pagesize;
+        $this->attempts     = $fromform->attempts;
+        
+        $this->cheadertext    = $fromform->cheader['text'];
+        $this->cfootertext    = $fromform->cfooter['text'];
+        $this->cheaderformat  = $fromform->cheader['format'];
+        $this->cfoterformat   = $fromform->cfooter['format'];
     }
 
     public function setup_from_params() {
@@ -69,6 +130,13 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
 
         $this->onlyregraded = optional_param('onlyregraded', $this->onlyregraded, PARAM_BOOL);
         $this->slotmarks    = optional_param('slotmarks', $this->slotmarks, PARAM_BOOL);
+        $this->pagesize     = optional_param('pagesize', $this->pagesize, PARAM_INT);
+        $this->attempts     = optional_param('attempts', $this->attempts, PARAM_TEXT);
+        
+        $this->cheadertext    = optional_param('cheader[text]', $this->cheadertext, PARAM_RAW);
+        $this->cfootertext    = optional_param('cfooter[text]', $this->cfootertext, PARAM_RAW);
+        $this->cheaderformat  = optional_param('cheader[format]', $this->cheaderformat, PARAM_INT);        
+        $this->cfoterformat   = optional_param('cfooter[format]', $this->cfoterformat, PARAM_INT);
     }
 
     public function setup_from_user_preferences() {

@@ -15,42 +15,130 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file defines the setting form for the quiz exampaper report.
+ * Base class for the settings form for {@link quiz_attempts_report}s.
  *
  * @package   quiz_exampaper
- * @copyright 2008 Jamie Pratt
+ * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/mod/quiz/report/attemptsreport_form.php');
+require_once($CFG->libdir . '/formslib.php');
 
 
 /**
- * Quiz exampaper report settings form.
+ * Base class for the settings form for {@link quiz_attempts_report}s.
  *
- * @copyright 2008 Jamie Pratt
+ * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class quiz_exampaper_settings_form extends mod_quiz_attempts_report_form {
+class quiz_exampaper_settings_form extends moodleform {
 
-    protected function other_attempt_fields(MoodleQuickForm $mform) {
-        if (has_capability('mod/quiz:regrade', $this->_customdata['context'])) {
-            $mform->addElement('advcheckbox', 'onlyregraded', get_string('reportshowonly', 'quiz'),
-                    get_string('optonlyregradedattempts', 'quiz_exampaper'));
-            $mform->disabledIf('onlyregraded', 'attempts', 'eq', quiz_attempts_report::ENROLLED_WITHOUT);
+    protected function definition() {
+        global $PAGE;
+        
+        $mform = $this->_form;
+        
+        $mform->addElement('header', 'preferencespage',
+                get_string('reportwhattoinclude', 'quiz'));
+
+        $this->standard_attempt_fields($mform);
+        $this->other_attempt_fields($mform);
+
+        $mform->addElement('submit', 'submitbutton',
+                get_string('showreport', 'quiz'));
+                
+        $mform->addElement('header', 'preferencesuser',
+                get_string('exampapercolontitlesdisplayoptions', 'quiz_exampaper'));
+
+        $this->standard_preference_fields($mform);
+        $this->other_preference_fields($mform);
+
+        $mform->addElement('submit', 'savecolontitles',
+                get_string('exampapersavecolontitles', 'quiz_exampaper'));
+        $mform->addElement('cancel', 'resetcolontitles',
+                get_string('exampaperesetcolontitles', 'quiz_exampaper'));
+        $PAGE->requires->event_handler('#id_resetcolontitles', 'click', 'M.util.show_confirm_dialog',
+                    array('message' => get_string('exampaperesetcolontitlescofirmation', 'quiz_exampaper')));
+    }
+
+    protected function standard_attempt_fields(MoodleQuickForm $mform) {
+    
+        $mform->addElement('select', 'attempts', get_string('reportattemptsfrom', 'quiz'), array(
+                    quiz_attempts_report::ENROLLED_WITH    => get_string('reportuserswith', 'quiz'),
+                    quiz_attempts_report::ENROLLED_WITHOUT => get_string('reportuserswithout', 'quiz'),
+                    quiz_attempts_report::ENROLLED_ALL     => get_string('reportuserswithorwithout', 'quiz'),
+                    quiz_attempts_report::ALL_WITH        => get_string('reportusersall', 'quiz'),
+                 ));
+
+        $stategroup = array(
+            $mform->createElement('advcheckbox', 'stateinprogress', '',
+                    get_string('stateinprogress', 'quiz')),
+            $mform->createElement('advcheckbox', 'stateoverdue', '',
+                    get_string('stateoverdue', 'quiz')),
+            $mform->createElement('advcheckbox', 'statefinished', '',
+                    get_string('statefinished', 'quiz')),
+            $mform->createElement('advcheckbox', 'stateabandoned', '',
+                    get_string('stateabandoned', 'quiz')),
+        );
+        $mform->addGroup($stategroup, 'stateoptions',
+                get_string('reportattemptsthatare', 'quiz'), array(' '), false);
+        $mform->setDefault('stateinprogress', 1);
+        $mform->setDefault('stateoverdue',    1);
+        $mform->setDefault('statefinished',   1);
+        $mform->setDefault('stateabandoned',  1);
+        $mform->disabledIf('stateinprogress', 'attempts', 'eq', quiz_attempts_report::ENROLLED_WITHOUT);
+        $mform->disabledIf('stateoverdue',    'attempts', 'eq', quiz_attempts_report::ENROLLED_WITHOUT);
+        $mform->disabledIf('statefinished',   'attempts', 'eq', quiz_attempts_report::ENROLLED_WITHOUT);
+        $mform->disabledIf('stateabandoned',  'attempts', 'eq', quiz_attempts_report::ENROLLED_WITHOUT);
+
+        if (quiz_report_can_filter_only_graded($this->_customdata['quiz'])) {
+            $gm = html_writer::tag('span',
+                    quiz_get_grading_option_name($this->_customdata['quiz']->grademethod),
+                    array('class' => 'highlight'));
+            $mform->addElement('advcheckbox', 'onlygraded', '',
+                    get_string('reportshowonlyfinished', 'quiz', $gm));
+            $mform->disabledIf('onlygraded', 'attempts', 'eq', quiz_attempts_report::ENROLLED_WITHOUT);
+            $mform->disabledIf('onlygraded', 'statefinished', 'notchecked');
         }
     }
 
+    protected function other_attempt_fields(MoodleQuickForm $mform) {  
+    }
+
+    protected function standard_preference_fields(MoodleQuickForm $mform) {
+        $mform->addElement('hidden', 'slotmarks', 0);
+        $mform->setType('slotmarks', PARAM_INT);
+        $mform->addElement('hidden', 'pagesize', quiz_attempts_report::DEFAULT_PAGE_SIZE);
+        $mform->setType('pagesize', PARAM_INT);
+        //$mform->addElement('hidden', 'attempts', quiz_attempts_report::ENROLLED_ALL);
+        //$mform->setType('attempts', PARAM_TEXT);
+    }
+
     protected function other_preference_fields(MoodleQuickForm $mform) {
-        if (quiz_has_grades($this->_customdata['quiz'])) {
-            $mform->addElement('selectyesno', 'slotmarks',
-                    get_string('showdetailedmarks', 'quiz_exampaper'));
-        } else {
-            $mform->addElement('hidden', 'slotmarks', 0);
-            $mform->setType('slotmarks', PARAM_INT);
+		// cheader editor.
+        $mform->addElement('editor', 'cheader',
+                get_string('exampapercheader', 'quiz_exampaper'), array('rows' => 5), array('maxfiles' => EDITOR_UNLIMITED_FILES,
+                        'noclean' => true, 'enable_filemanagement' => true));
+        $mform->setType('cheader', PARAM_RAW);
+
+		// cfooter editor.
+        $mform->addElement('editor', 'cfooter',
+                get_string('exampapercfooter', 'quiz_exampaper'), array('rows' => 5), array('maxfiles' => EDITOR_UNLIMITED_FILES,
+                        'noclean' => true, 'enable_filemanagement' => true));
+        $mform->setType('cfooter', PARAM_RAW);        
+    }
+
+    public function validation($data, $files) {
+        $errors = parent::validation($data, $files);
+
+        if ($data['attempts'] != quiz_attempts_report::ENROLLED_WITHOUT && !(
+                $data['stateinprogress'] || $data['stateoverdue'] || $data['statefinished'] || $data['stateabandoned'])) {
+            $errors['stateoptions'] = get_string('reportmustselectstate', 'quiz');
         }
+        
+        return $errors;
     }
 }

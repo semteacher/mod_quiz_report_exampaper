@@ -27,7 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/quiz/report/attemptsreport_table.php');
 
-
 /**
  * This is a table subclass for displaying the quiz grades report.
  *
@@ -67,7 +66,8 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
         parent::build_table();
 
         // End of adding the data from attempts. Now add averages at bottom.
-        $this->add_separator();
+        //tdmu-remove separator
+//        $this->add_separator();
 
         if (!empty($this->groupstudentsjoins->joins)) {
             $sql = "SELECT DISTINCT u.id
@@ -76,7 +76,8 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
                      WHERE {$this->groupstudentsjoins->wheres}";
             $groupstudents = $DB->get_records_sql($sql, $this->groupstudentsjoins->params);
             if ($groupstudents) {
-                $this->add_average_row(get_string('groupavg', 'grades'), $this->groupstudentsjoins);
+            //tdmu-remove average
+//                $this->add_average_row(get_string('groupavg', 'grades'), $this->groupstudentsjoins);
             }
         }
 
@@ -87,8 +88,16 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
                      WHERE {$this->studentsjoins->wheres}";
             $students = $DB->get_records_sql($sql, $this->studentsjoins->params);
             if ($students) {
-                $this->add_average_row(get_string('overallaverage', 'grades'), $this->studentsjoins);
+            //tdmu-remove average
+//                $this->add_average_row(get_string('overallaverage', 'grades'), $this->studentsjoins);
             }
+        }
+        
+        if ($this->is_downloading()) {
+                //echo '<div>';
+                //echo $this->options->cfootertext;
+                //echo html_writer::input_hidden_params($displayurl);
+                //echo '</div>';        
         }
     }
 
@@ -188,11 +197,12 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
     }
 
     protected function submit_buttons() {
-        if (has_capability('mod/quiz:regrade', $this->context)) {
-            echo '<input type="submit" class="btn btn-secondary m-r-1" name="regrade" value="' .
-                    get_string('regradeselected', 'quiz_exampaper') . '"/>';
-        }
-        parent::submit_buttons();
+    //tdmu-disable regrade buttons at bottom of table - wrap_html_finish - too
+//        if (has_capability('mod/quiz:regrade', $this->context)) {
+//            echo '<input type="submit" class="btn btn-secondary m-r-1" name="regrade" value="' .
+//                    get_string('regradeselected', 'quiz_overview') . '"/>';
+//        }
+//        parent::submit_buttons();
     }
 
     public function col_sumgrades($attempt) {
@@ -289,9 +299,9 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
         if ($attempt->regraded == '') {
             return '';
         } else if ($attempt->regraded == 0) {
-            return get_string('needed', 'quiz_exampaper');
+            return get_string('needed', 'quiz_overview');
         } else if ($attempt->regraded == 1) {
-            return get_string('done', 'quiz_exampaper');
+            return get_string('done', 'quiz_overview');
         }
     }
 
@@ -329,5 +339,107 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
         $regradedqs = $DB->get_records_select('quiz_exampaper_regrades',
                 'questionusageid ' . $qubaids->usage_id_in(), $qubaids->usage_id_in_params());
         return quiz_report_index_by_keys($regradedqs, array('questionusageid', 'slot'));
+    }
+    
+        //tdmu-override def
+        public function wrap_html_start() {
+        if ($this->is_downloading() || !$this->includecheckboxes) {
+            return;
+        }
+
+        $url = $this->options->get_url();
+        $url->param('sesskey', sesskey());
+
+        echo '<div id="tablecontainer">';
+        echo '<form id="attemptsform" method="post" action="' . $url->out_omit_querystring() . '">';
+
+        echo html_writer::input_hidden_params($url);
+        echo '<div>';
+    }
+
+    //tdmu-override def
+    public function wrap_html_finish() {
+        if ($this->is_downloading() || !$this->includecheckboxes) {
+            return;
+        }
+
+        //tdmu-disable commands below table
+//        echo '<div id="commands">';        
+//        echo '<a href="javascript:select_all_in(\'DIV\', null, \'tablecontainer\');">' .
+//                get_string('selectall', 'quiz') . '</a> / ';
+//        echo '<a href="javascript:deselect_all_in(\'DIV\', null, \'tablecontainer\');">' .
+//                get_string('selectnone', 'quiz') . '</a> ';
+//        echo '&nbsp;&nbsp;';
+//        $this->submit_buttons();
+//        echo '</div>';
+
+        // Close the form.
+        echo '</div>';
+        echo '</form></div>';
+    }
+    
+        /**
+     * Get the html for the download buttons
+     *
+     * Usually only use internally
+     */
+    public function download_buttons() {
+        global $OUTPUT;
+
+        if ($this->is_downloadable() && !$this->is_downloading()) {
+            //tdmu - set default download option to 'html' there?
+            //echo 'search: override!';
+            //$select = $OUTPUT->download_dataformat_selector(get_string('downloadas', 'table'),
+            //            $this->baseurl->out_omit_querystring(), 'download', $this->baseurl->params());
+            $select = $OUTPUT->download_dataformat_selector(get_string('exampaperdownload', 'quiz_exampaper'),
+                    $this->baseurl->out_omit_querystring(), 'download', $this->baseurl->params());
+            $select = str_replace('option value="doc"', 'option value="doc" selected', $select);
+            $select = str_replace('select name="download" id="downloadtype_download"', 'select name="download" id="downloadtype_download" hidden', $select);
+
+            return $select;
+        } else {
+            return '';
+        }
+    }
+    
+    /**
+     * This function is not part of the public api.
+     * You don't normally need to call this. It is called automatically when
+     * needed when you start adding data to the table.
+     *
+     */
+    function start_output() {
+        $this->started_output = true;
+        if ($this->exportclass!==null) {
+            $this->exportclass->start_table($this->sheettitle);
+            //$this->exportclass->output_headers($this->headers); //old origin call
+            \dataformat_doc\writer::write_document_header($this->filename);            
+            \dataformat_doc\writer::write_div($this->options->cheadertext);
+            \dataformat_doc\writer::write_table_header($this->headers);
+        } else {
+            $this->start_html();
+            $this->print_headers();
+            echo html_writer::start_tag('tbody');
+        }
+    }
+
+    /**
+     * You should call this to finish outputting the table data after adding
+     * data to the table with add_data or add_data_keyed.
+     *
+     */
+    function finish_output($closeexportclassdoc = true) {
+        if ($this->exportclass!==null) {
+            //$this->exportclass->finish_table(); //old origin call
+            \dataformat_doc\writer::write_table_end();
+            \dataformat_doc\writer::write_div($this->options->cfootertext);
+            \dataformat_doc\writer::write_document_end();
+
+            if ($closeexportclassdoc) {
+                $this->exportclass->finish_document();
+            }
+        } else {
+            $this->finish_html();
+        }
     }
 }

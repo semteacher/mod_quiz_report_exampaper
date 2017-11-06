@@ -29,6 +29,7 @@ require_once($CFG->dirroot . '/mod/quiz/report/attemptsreport.php');
 require_once($CFG->dirroot . '/mod/quiz/report/exampaper/exampaper_options.php');
 require_once($CFG->dirroot . '/mod/quiz/report/exampaper/exampaper_form.php');
 require_once($CFG->dirroot . '/mod/quiz/report/exampaper/exampaper_table.php');
+//require_once($CFG->dirroot . '/mod/quiz/report/exampaper/reportlib.php');
 
 
 /**
@@ -41,7 +42,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
 
     public function display($quiz, $cm, $course) {
         global $DB, $OUTPUT, $PAGE;
-
+        
         list($currentgroup, $studentsjoins, $groupstudentsjoins, $allowedjoins) = $this->init(
                 'exampaper', 'quiz_exampaper_settings_form', $quiz, $cm, $course);
 
@@ -49,23 +50,34 @@ class quiz_exampaper_report extends quiz_attempts_report {
 
         if ($fromform = $this->form->get_data()) {
             $options->process_settings_from_form($fromform);
-
         } else {
             $options->process_settings_from_params();
         }
 
         $this->form->set_data($options->get_initial_form_data());
 
+        //tdmu-force display all enrolled users
+        //$options->attempts = self::ENROLLED_ALL;
+        
         // Load the required questions.
         $questions = quiz_report_get_significant_questions($quiz);
 
         // Prepare for downloading, if applicable.
         $courseshortname = format_string($course->shortname, true,
                 array('context' => context_course::instance($course->id)));
+        $coursesection = $DB->get_record('course_sections', array('id'=>$cm->section));
+        if ($coursesection) {
+            $coursesectionname = format_string($coursesection->name, true,
+                array('context' => context_course::instance($course->id)));
+        } else {
+            $coursesectionname = '';
+        }
         $table = new quiz_exampaper_table($quiz, $this->context, $this->qmsubselect,
                 $options, $groupstudentsjoins, $studentsjoins, $questions, $options->get_url());
-        $filename = quiz_report_download_filename(get_string('exampaperfilename', 'quiz_exampaper'),
-                $courseshortname, $quiz->name);
+        //$filename = quiz_report_download_filename(get_string('exampaperfilename', 'quiz_exampaper'),
+        //        $courseshortname, $quiz->name);
+        $filename = $this->quiz_report_download_filename_extended(get_string('exampaperfilename', 'quiz_exampaper'),
+                $courseshortname, $coursesectionname, $quiz->name, $options->group);
         $table->is_downloading($options->download, $filename,
                 $courseshortname . ' ' . format_string($quiz->name, true));
         if ($table->is_downloading()) {
@@ -166,34 +178,35 @@ class quiz_exampaper_report extends quiz_attempts_report {
                         $a->coursestudents = get_string('participants');
                         $a->countregradeneeded = $regradesneeded;
                         $regradealldrydolabel =
-                                get_string('regradealldrydogroup', 'quiz_exampaper', $a);
+                                get_string('regradealldrydogroup', 'quiz_overview', $a);
                         $regradealldrylabel =
-                                get_string('regradealldrygroup', 'quiz_exampaper', $a);
+                                get_string('regradealldrygroup', 'quiz_overview', $a);
                         $regradealllabel =
-                                get_string('regradeallgroup', 'quiz_exampaper', $a);
+                                get_string('regradeallgroup', 'quiz_overview', $a);
                     } else {
                         $regradealldrydolabel =
-                                get_string('regradealldrydo', 'quiz_exampaper', $regradesneeded);
+                                get_string('regradealldrydo', 'quiz_overview', $regradesneeded);
                         $regradealldrylabel =
-                                get_string('regradealldry', 'quiz_exampaper');
+                                get_string('regradealldry', 'quiz_overview');
                         $regradealllabel =
-                                get_string('regradeall', 'quiz_exampaper');
+                                get_string('regradeall', 'quiz_overview');
                     }
                     $displayurl = new moodle_url($options->get_url(), array('sesskey' => sesskey()));
-                    echo '<div class="mdl-align">';
-                    echo '<form action="'.$displayurl->out_omit_querystring().'">';
-                    echo '<div>';
-                    echo html_writer::input_hidden_params($displayurl);
-                    echo '<input type="submit" class="btn btn-secondary" name="regradeall" value="'.$regradealllabel.'"/>';
-                    echo '<input type="submit" class="btn btn-secondary m-l-1" name="regradealldry" value="' .
-                            $regradealldrylabel . '"/>';
-                    if ($regradesneeded) {
-                        echo '<input type="submit" class="btn btn-secondary m-l-1" name="regradealldrydo" value="' .
-                                $regradealldrydolabel . '"/>';
-                    }
-                    echo '</div>';
-                    echo '</form>';
-                    echo '</div>';
+                    //tdmu-disable regrading
+//                    echo '<div class="mdl-align">';
+//                    echo '<form action="'.$displayurl->out_omit_querystring().'">';
+//                    echo '<div>';
+//                    echo html_writer::input_hidden_params($displayurl);
+//                    echo '<input type="submit" class="btn btn-secondary" name="regradeall" value="'.$regradealllabel.'"/>';
+//                    echo '<input type="submit" class="btn btn-secondary m-l-1" name="regradealldry" value="' .
+//                            $regradealldrylabel . '"/>';
+//                    if ($regradesneeded) {
+//                        echo '<input type="submit" class="btn btn-secondary m-l-1" name="regradealldrydo" value="' .
+//                                $regradealldrydolabel . '"/>';
+//                    }
+//                    echo '</div>';
+//                    echo '</form>';
+//                    echo '</div>';
                 }
                 // Print information on the grading method.
                 if ($strattempthighlight = quiz_report_highlighting_grading_method(
@@ -207,8 +220,9 @@ class quiz_exampaper_report extends quiz_attempts_report {
             $headers = array();
 
             if (!$table->is_downloading() && $options->checkboxcolumn) {
-                $columns[] = 'checkbox';
-                $headers[] = null;
+            //tdmu-disable checkbox column
+//                $columns[] = 'checkbox';
+//                $headers[] = null;
             }
 
             $this->add_user_columns($table, $columns, $headers);
@@ -220,27 +234,28 @@ class quiz_exampaper_report extends quiz_attempts_report {
             if (!$table->is_downloading() && has_capability('mod/quiz:regrade', $this->context) &&
                     $this->has_regraded_questions($from, $where, $params)) {
                 $columns[] = 'regraded';
-                $headers[] = get_string('regrade', 'quiz_exampaper');
+                $headers[] = get_string('regrade', 'quiz_overview');
             }
 
             if ($options->slotmarks) {
-                foreach ($questions as $slot => $question) {
-                    // Ignore questions of zero length.
-                    $columns[] = 'qsgrade' . $slot;
-                    $header = get_string('qbrief', 'quiz', $question->number);
-                    if (!$table->is_downloading()) {
-                        $header .= '<br />';
-                    } else {
-                        $header .= ' ';
-                    }
-                    $header .= '/' . quiz_rescale_grade($question->maxmark, $quiz, 'question');
-                    $headers[] = $header;
-                }
+            //tdmu-disable slotmarks
+//                foreach ($questions as $slot => $question) {
+//                    // Ignore questions of zero length.
+//                    $columns[] = 'qsgrade' . $slot;
+//                    $header = get_string('qbrief', 'quiz', $question->number);
+//                    if (!$table->is_downloading()) {
+//                        $header .= '<br />';
+//                    } else {
+//                        $header .= ' ';
+//                    }
+//                    $header .= '/' . quiz_rescale_grade($question->maxmark, $quiz, 'question');
+//                    $headers[] = $header;
+//                }
             }
 
             $this->set_up_table_columns($table, $columns, $headers, $this->get_base_url(), $options, false);
             $table->set_attribute('class', 'generaltable generalbox grades');
-
+//var_dump($options);
             $table->out($options->pagesize, true);
         }
 
@@ -286,8 +301,100 @@ class quiz_exampaper_report extends quiz_attempts_report {
             $this->regrade_attempts_needing_it($quiz, $groupstudentsjoins);
             $this->finish_regrade($redirecturl);
         }
+
+        if (optional_param('savecolontitles', '', PARAM_TEXT) && confirm_sesskey()) {
+            $this->savecolontitles($quiz);
+        }
+        
+        if (optional_param('resetcolontitles', '', PARAM_TEXT) && confirm_sesskey()) {
+            //var_dump($redirecturl);
+            $this->resetcolontitles($quiz);
+            redirect($redirecturl);
+        }
+                
     }
 
+    protected function savecolontitles($quiz) {
+        global $DB;
+        
+        if ($formdata = $this->form->get_data()) {
+
+        $colontitles = new stdClass();
+        $colontitles->quizid = $quiz->id;
+        $colontitles->cheader = $formdata->cheader['text'];
+        $colontitles->cfooter = $formdata->cfooter['text'];
+        $colontitles->cheaderformat = $formdata->cheader['format'];
+        $colontitles->cfooterformat = $formdata->cfooter['format'];
+        
+        $transaction = $DB->start_delegated_transaction();
+        
+        $saved_colontitles = $DB->get_record('quiz_exampaper_colontitles', array('quizid'=>$quiz->id));
+//var_dump($saved_colontitles);        
+        if ($saved_colontitles) {
+            $colontitles->id = $saved_colontitles->id;
+            $DB->update_record('quiz_exampaper_colontitles', $colontitles, false);
+        } else {
+            $DB->insert_record('quiz_exampaper_colontitles', $colontitles, false);
+        }
+        
+        $transaction->allow_commit();
+//die();        
+}
+    }
+    
+    protected function resetcolontitles($quiz) {
+        global $DB;
+        
+        $transaction = $DB->start_delegated_transaction();
+        $DB->delete_records('quiz_exampaper_colontitles', array('quizid'=>$quiz->id));
+        $transaction->allow_commit();
+    }
+    
+    /**
+     * Add all the user-related columns to the $columns and $headers arrays.
+     * @param table_sql $table the table being constructed.
+     * @param array $columns the list of columns. Added to.
+     * @param array $headers the columns headings. Added to.
+     */
+    protected function add_user_columns($table, &$columns, &$headers) {
+        global $CFG;
+        if (!$table->is_downloading() && $CFG->grade_report_showuserimage) {
+            $columns[] = 'picture';
+            $headers[] = '';
+        }
+        //if (!$table->is_downloading()) {
+            $columns[] = 'fullname';
+            $headers[] = get_string('firstname').', '.get_string('lastname');
+        //} else {
+        //    $columns[] = 'lastname';
+        //    $headers[] = get_string('lastname');
+        //    $columns[] = 'firstname';
+        //    $headers[] = get_string('firstname');
+        //}
+
+        // When downloading, some extra fields are always displayed (because
+        // there's no space constraint) so do not include in extra-field list.
+        //$extrafields = get_extra_user_fields($this->context,
+        //        $table->is_downloading() ? array('institution', 'department', 'email') : array());
+        $extrafields = get_extra_user_fields($this->context,
+                $table->is_downloading() ? array('email') : array());
+        foreach ($extrafields as $field) {
+            $columns[] = $field;
+            $headers[] = get_user_field_name($field);
+        }
+
+        if ($table->is_downloading()) {
+           // $columns[] = 'institution';
+           // $headers[] = get_string('institution');
+
+            //$columns[] = 'department';
+            //$headers[] = get_string('department');
+
+            $columns[] = 'email';
+            $headers[] = get_string('email');
+        }
+    }
+    
     /**
      * Check necessary capabilities, and start the display of the regrade progress page.
      * @param object $quiz the quiz settings.
@@ -305,7 +412,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
      */
     protected function finish_regrade($nexturl) {
         global $OUTPUT;
-        \core\notification::success(get_string('regradecomplete', 'quiz_exampaper'));
+        \core\notification::success(get_string('regradecomplete', 'quiz_overview'));
         echo $OUTPUT->continue_button($nexturl);
         echo $OUTPUT->footer();
         die();
@@ -424,7 +531,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
             $this->regrade_attempt($attempt, $dryrun);
             $a['done']++;
             $progressbar->update($a['done'], $a['count'],
-                    get_string('regradingattemptxofy', 'quiz_exampaper', $a));
+                    get_string('regradingattemptxofy', 'quiz_overview', $a));
         }
 
         if (!$dryrun) {
@@ -485,7 +592,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
             $this->regrade_attempt($attempt, false, $attemptquestions[$attempt->uniqueid]);
             $a['done']++;
             $progressbar->update($a['done'], $a['count'],
-                    get_string('regradingattemptxofy', 'quiz_exampaper', $a));
+                    get_string('regradingattemptxofy', 'quiz_overview', $a));
         }
 
         $this->update_overall_grades($quiz);
@@ -576,6 +683,32 @@ class quiz_exampaper_report extends quiz_attempts_report {
         quiz_update_all_attempt_sumgrades($quiz);
         quiz_update_all_final_grades($quiz);
         quiz_update_grades($quiz);
+    }
+
+    /**
+     * Create a filename for use when downloading data from a quiz report. It is
+     * expected that this will be passed to flexible_table::is_downloading, which
+     * cleans the filename of bad characters and adds the file extension.
+     * @param string $report the type of report.
+     * @param string $courseshortname the course shortname.
+     * @param string $quizname the quiz name.
+     * @return string the filename.
+    */    
+    protected function quiz_report_download_filename_extended($report, $courseshortname, $coursesectionname, $quizname, $groupid) {
+        if ($groupid > 0) {
+            $groupname = groups_get_group_name($groupid);
+        } else {
+            $groupname = 'all';
+        }
+        $filename = trim($courseshortname . '-' . $groupname . '-' . format_string($quizname, true) . '-' . $coursesectionname . '-' . $report);
+        
+        return $this->truncate($filename, 200);
+}
+    /**  
+     * Truncate long text (especially - for usage with filenames)
+    */
+    private function truncate($string, $length, $dots = "_") {
+        return (strlen($string) > $length) ? substr($string, 0, $length - strlen($dots)) . $dots : $string;
     }
 
 }

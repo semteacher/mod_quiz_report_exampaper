@@ -29,8 +29,9 @@ defined('MOODLE_INTERNAL') || die();
  * @param number $oldversion
  */
 function xmldb_quiz_exampaper_upgrade($oldversion) {
-    global $CFG;
+    global $CFG, $DB;
 
+    $dbman = $DB->get_manager();
     // Moodle v2.8.0 release upgrade line.
     // Put any upgrade step following this.
 
@@ -45,6 +46,31 @@ function xmldb_quiz_exampaper_upgrade($oldversion) {
 
     // Automatically generated Moodle v3.2.0 release upgrade line.
     // Put any upgrade step following this.
+    if ($oldversion < 2017042500) {
+
+        // Define table quiz_exampaper_colontitles to be created.
+        $table = new xmldb_table('quiz_exampaper_colontitles');
+
+        // Adding fields to table quiz_exampaper_colontitles.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('quizid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('cheader', XMLDB_TYPE_TEXT, 'medium', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('cheaderformat', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('cfooter', XMLDB_TYPE_TEXT, 'medium', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('cfooterformat', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table quiz_exampaper_colontitles.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('quizid', XMLDB_KEY_FOREIGN, array('quizid'), 'quiz', array('id'));
+
+        // Conditionally launch create table for quiz_exampaper_colontitles.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Quiz exampaper savepoint reached.
+        upgrade_mod_savepoint(true, 2017042500, 'quiz', 'exampaper');
+    }
 
     return true;
 }

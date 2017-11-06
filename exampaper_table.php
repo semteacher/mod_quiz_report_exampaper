@@ -442,4 +442,69 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
             $this->finish_html();
         }
     }
+
+	protected function tdmu_extragrades($grade) {
+		$grade_tdmu = $grade;
+		if ($grade <= 24) {$grade_tdmu = get_string('fail', 'quiz_exampaper');}
+		elseif ($grade <= 41) {$grade_tdmu = $grade + 25;}
+		elseif ($grade == 42) {$grade_tdmu = 68;}
+		elseif ($grade == 43) {$grade_tdmu = 70;}
+		elseif ($grade == 44) {$grade_tdmu = 72;}
+		elseif ($grade == 45) {$grade_tdmu = 74;}
+		elseif ($grade == 46) {$grade_tdmu = 76;}
+		elseif ($grade == 47) {$grade_tdmu = 78;}
+		elseif ($grade == 48) {$grade_tdmu = 80;}
+		//$grade_tdmu = $grade;
+		return $grade_tdmu;
+	}
+    /**
+     * Generate the display of the checkbox column.
+     * @param object $attempt the table row being output.
+     * @return string HTML content to go inside the td.
+     */
+    public function col_extragrades($attempt) {
+        //if ($attempt->attempt) {
+        //    return '<input type="checkbox" name="attemptid[]" value="'.$attempt->attempt.'" />';
+        //} else {
+        //    return '';
+        //}
+		
+		//return '';
+        if ($attempt->state != quiz_attempt::FINISHED) {
+            return '-';
+        }
+
+        $grade = quiz_rescale_grade($attempt->sumgrades, $this->quiz);
+		$grade_tdmu = $this->tdmu_extragrades($grade);
+        if ($this->is_downloading()) {
+            return $grade_tdmu;
+        }
+
+        if (isset($this->regradedqs[$attempt->usageid])) {
+            $newsumgrade = 0;
+            $oldsumgrade = 0;
+            foreach ($this->questions as $question) {
+                if (isset($this->regradedqs[$attempt->usageid][$question->slot])) {
+                    $newsumgrade += $this->regradedqs[$attempt->usageid]
+                            [$question->slot]->newfraction * $question->maxmark;
+                    $oldsumgrade += $this->regradedqs[$attempt->usageid]
+                            [$question->slot]->oldfraction * $question->maxmark;
+                } else {
+                    $newsumgrade += $this->lateststeps[$attempt->usageid]
+                            [$question->slot]->fraction * $question->maxmark;
+                    $oldsumgrade += $this->lateststeps[$attempt->usageid]
+                            [$question->slot]->fraction * $question->maxmark;
+                }
+            }
+            $newsumgrade = quiz_rescale_grade($newsumgrade, $this->quiz);
+			$newsumgrade_tdmu = $this->tdmu_extragrades($newsumgrade);
+            $oldsumgrade = quiz_rescale_grade($oldsumgrade, $this->quiz);
+			$oldsumgrade_tdmu = $this->tdmu_extragrades($oldsumgrade);
+            $grade_tdmu = html_writer::tag('del', $oldsumgrade_tdmu) . '/' .
+                    html_writer::empty_tag('br') . $newsumgrade_tdmu;
+        }
+        return html_writer::link(new moodle_url('/mod/quiz/review.php',
+                array('attempt' => $attempt->attempt)), $grade_tdmu,
+                array('title' => get_string('reviewattempt', 'quiz')));		
+    }
 }

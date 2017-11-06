@@ -394,6 +394,20 @@ class quiz_exampaper_report extends quiz_attempts_report {
             $headers[] = get_string('email');
         }
     }
+	
+    /**
+     * Add all the time-related columns to the $columns and $headers arrays.
+     * @param array $columns the list of columns. Added to.
+     * @param array $headers the columns headings. Added to.
+	 * TDMU override - only timefinish and duration columns
+     */
+    protected function add_time_columns(&$columns, &$headers) {
+        $columns[] = 'timefinish';
+        $headers[] = get_string('timecompleted', 'quiz');
+
+        $columns[] = 'duration';
+        $headers[] = get_string('attemptduration', 'quiz');
+    }
     
     /**
      * Check necessary capabilities, and start the display of the regrade progress page.
@@ -710,5 +724,29 @@ class quiz_exampaper_report extends quiz_attempts_report {
     private function truncate($string, $length, $dots = "_") {
         return (strlen($string) > $length) ? substr($string, 0, $length - strlen($dots)) . $dots : $string;
     }
+	
+    /**
+     * Add all the grade and feedback columns, if applicable, to the $columns
+     * and $headers arrays.
+     * @param object $quiz the quiz settings.
+     * @param bool $usercanseegrades whether the user is allowed to see grades for this quiz.
+     * @param array $columns the list of columns. Added to.
+     * @param array $headers the columns headings. Added to.
+     * @param bool $includefeedback whether to include the feedbacktext columns
+     */
+    protected function add_grade_columns($quiz, $usercanseegrades, &$columns, &$headers, $includefeedback = true) {
+        if ($usercanseegrades) {
+            $columns[] = 'sumgrades';
+            $headers[] = get_string('corectanswers', 'quiz_exampaper') . '/' .
+                    quiz_format_grade($quiz, $quiz->grade);
+			//tdmu special extra column (should be empty)
+			$columns[] = 'extragrades';
+			$headers[] = get_string('score', 'quiz_exampaper');
+        }
 
+        if ($includefeedback && quiz_has_feedback($quiz)) {
+            $columns[] = 'feedbacktext';
+            $headers[] = get_string('feedback', 'quiz');
+        }
+    }
 }

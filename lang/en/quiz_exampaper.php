@@ -21,7 +21,7 @@
  * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+$string['pluginname'] = 'Exam Grades Paper';
 $string['exampaper'] = 'Exam Grades Paper';
 $string['exampaperdownload'] = 'Download report paper: ';
 $string['exampaperfilename'] = 'examgradespaper';
@@ -34,7 +34,7 @@ $string['exampaperesetcolontitles'] = 'Reset colontitles to default';
 $string['exampaperesetcolontitlescofirmation'] = 'Are you absolutely sure? All your changes of the colontites will be completely deleted !';
 $string['exampapercheaderdefault'] = '
 <p style="margin:3pt 0pt 3pt 0pt;text-align:center;">МІНІСТЕРСТВО ОХОРОНИ ЗДОРОВ\'Я УКРАЇНИ</p>
-<p style="margin:3pt 0pt 3pt 0pt;text-align:center;"><b>Тернопільський державний медичний університет імені І.Я.Горбачевського</b></p>
+<p style="margin:3pt 0pt 3pt 0pt;text-align:center;"><b>Тернопільський національний медичний університет імені І.Я.Горбачевського</b></p>
 <table border=0 cellspacing=0 cellpadding=0 style="border-collapse:collapse">
 <tbody>
 <tr>
@@ -108,3 +108,10 @@ $string['exampapercfooterdefault'] = '
 $string['corectanswers'] = 'Correct';
 $string['score'] = 'Grade';
 $string['fail'] = 'Не склав';
+
+$string['exampapergradescaletypedisplayoptions'] = 'TNMU: Exam type (grade scale)';
+$string['exampapersavegradescaletype'] = 'Save exam type and apply grade scale';
+$string['gradescaletypefrom'] = 'Choose exam type (set grade scale)';
+$string['difcreditlabel'] = 'Differential credit (50-80)';
+$string['testexamlabel'] = 'General Exam (38-60)';
+$string['essayexamlabel'] = 'Oral exam (essay, 4-9)';

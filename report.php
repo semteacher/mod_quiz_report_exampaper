@@ -40,6 +40,13 @@ require_once($CFG->dirroot . '/mod/quiz/report/exampaper/exampaper_table.php');
  */
 class quiz_exampaper_report extends quiz_attempts_report {
 
+    /** @var string TNMU constant used for the options, means multichoice test exam. */
+    const GRADESCALE_TESTEXAM = 'testexam';
+    /** @var string TNMU constant used for the options, means essay test exam. */
+    const GRADESCALE_ESSAYEXAM = 'essayexam';
+    /** @var string TNMU constant used for the options, means multichoice differential credit. */
+    const GRADESCALE_DIFCREDIT = 'difcredit';
+    
     public function display($quiz, $cm, $course) {
         global $DB, $OUTPUT, $PAGE;
         

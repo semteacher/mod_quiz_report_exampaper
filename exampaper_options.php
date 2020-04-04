@@ -42,14 +42,16 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
     /** @var bool whether to show marks for each question (slot). */
     public $slotmarks = false;
     
-    //tdmu-force display all enrolled users
+    //tnmu-force display all enrolled users
     public $attempts = quiz_attempts_report::ENROLLED_ALL;
     
     public $pagesize = 30;
     
-    public $cheadertext = 'TDMU header';
+    public $gradescaletype = quiz_exampaper_report::GRADESCALE_TESTEXAM;
+    
+    public $cheadertext = 'TNMU header';
     public $cheaderformat = 1;
-    public $cfootertext = 'TDMU footer';
+    public $cfootertext = 'TNMU footer';
     public $cfoterformat = 1;
 
     protected function get_url_params() {
@@ -58,6 +60,8 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $params['slotmarks']    = $this->slotmarks;
         $params['attempts']     = $this->attempts;
         $params['pagesize']     = $this->pagesize;
+
+        $params['gradescaletype']     = $this->gradescaletype;
         
 //        $params['cheader']['text']    = $this->cheadertext;
 //        $params['cheader']['format']  = $this->cheaderformat;
@@ -78,7 +82,7 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
 
         $saved_colontitles = $DB->get_record('quiz_exampaper_colontitles', array('quizid'=>$this->quiz->id));
         
-        //below - TDMU-specific scheme of course/category names! - not used at a moment
+        //below - TNMU-specific scheme of course/category names! - not used at a moment
         $coursesection = $DB->get_record('course_sections', array('id'=>$this->cm->section)); //act as subject
         $coursecategory = $DB->get_record('course_categories', array('id'=>$this->course->category)); //act as speciality
         //$categoryparent1 = $DB->get_record('course_categories', array('id'=>$coursecategory->parent)); //act as faculty
@@ -86,7 +90,7 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $a= new stdClass();
         $a->groupname = groups_get_group_name($this->group);
         
-        //below - TDMU-specific scheme of course/category names!  - not used at a moment
+        //below - TNMU-specific scheme of course/category names!  - not used at a moment
         $a->subjectname = $coursesection->name;
         $a->semestername = $this->course->shortname;
         $a->specialityname = $coursecategory->name;
@@ -102,7 +106,9 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
             $this->cheadertext = get_string('exampapercheaderdefault', 'quiz_exampaper', $a);
             $this->cfootertext = get_string('exampapercfooterdefault', 'quiz_exampaper', $a);
         }
-        
+
+        $toform->gradescaletype     = $this->gradescaletype;
+
         $toform->cheader['text']    = $this->cheadertext;
         $toform->cfooter['text']    = $this->cfootertext;
         $toform->cheader['format']  = $this->cheaderformat;
@@ -118,6 +124,8 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $this->slotmarks    = $fromform->slotmarks;
         $this->pagesize     = $fromform->pagesize;
         $this->attempts     = $fromform->attempts;
+
+        $this->gradescaletype     = $fromform->gradescaletype;
         
         $this->cheadertext    = $fromform->cheader['text'];
         $this->cfootertext    = $fromform->cfooter['text'];
@@ -132,6 +140,8 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $this->slotmarks    = optional_param('slotmarks', $this->slotmarks, PARAM_BOOL);
         $this->pagesize     = optional_param('pagesize', $this->pagesize, PARAM_INT);
         $this->attempts     = optional_param('attempts', $this->attempts, PARAM_TEXT);
+
+        $this->gradescaletype     = optional_param('gradescaletype', $this->attempts, PARAM_TEXT);
         
         $this->cheadertext    = optional_param('cheader[text]', $this->cheadertext, PARAM_RAW);
         $this->cfootertext    = optional_param('cfooter[text]', $this->cfootertext, PARAM_RAW);

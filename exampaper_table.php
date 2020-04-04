@@ -445,15 +445,27 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
 
 	protected function tdmu_extragrades($grade) {
 		$grade_tdmu = $grade;
-		if ($grade <= 24) {$grade_tdmu = get_string('fail', 'quiz_exampaper');}
-		elseif ($grade <= 41) {$grade_tdmu = $grade + 25;}
-		elseif ($grade == 42) {$grade_tdmu = 68;}
-		elseif ($grade == 43) {$grade_tdmu = 70;}
-		elseif ($grade == 44) {$grade_tdmu = 72;}
-		elseif ($grade == 45) {$grade_tdmu = 74;}
-		elseif ($grade == 46) {$grade_tdmu = 76;}
-		elseif ($grade == 47) {$grade_tdmu = 78;}
-		elseif ($grade == 48) {$grade_tdmu = 80;}
+        if ($this->options->gradescaletype == quiz_exampaper_report::GRADESCALE_DIFCREDIT) {
+            if ($grade <= 24) {$grade_tdmu = get_string('fail', 'quiz_exampaper');}
+            elseif ($grade <= 41) {$grade_tdmu = $grade + 25;}
+            elseif ($grade == 42) {$grade_tdmu = 68;}
+            elseif ($grade == 43) {$grade_tdmu = 70;}
+            elseif ($grade == 44) {$grade_tdmu = 72;}
+            elseif ($grade == 45) {$grade_tdmu = 74;}
+            elseif ($grade == 46) {$grade_tdmu = 76;}
+            elseif ($grade == 47) {$grade_tdmu = 78;}
+            else {$grade_tdmu = 80;}
+        } elseif ($this->options->gradescaletype == quiz_exampaper_report::GRADESCALE_TESTEXAM) {
+            if ($grade <= 24) {$grade_tdmu = get_string('fail', 'quiz_exampaper');}
+            elseif ($grade <= 26) {$grade_tdmu = 38;}
+            else {$grade_tdmu = $grade + 12;}
+        } elseif ($this->options->gradescaletype == quiz_exampaper_report::GRADESCALE_ESSAYEXAM) {
+            if ($grade <= 3) {$grade_tdmu = get_string('fail', 'quiz_exampaper');}
+            elseif ($grade <= 7) {$grade_tdmu = $grade + 9;}
+            elseif ($grade == 8) {$grade_tdmu = 18;}
+            else {$grade_tdmu = 20;}
+        }
+
 		//$grade_tdmu = $grade;
 		return $grade_tdmu;
 	}

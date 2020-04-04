@@ -19,6 +19,7 @@
  *
  * @package   quiz_exampaper
  * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
+ * @copyright 2020 Andrii Semenets (semteacher@tdmu.edu.ua)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 $string['pluginname'] = 'Exam Grades Paper';
@@ -26,7 +27,7 @@ $string['exampaper'] = 'Exam Grades Paper';
 $string['exampaperdownload'] = 'Download report paper: ';
 $string['exampaperfilename'] = 'examgradespaper';
 $string['exampaperreport'] = 'Exam grades paper report';
-$string['exampapercolontitlesdisplayoptions'] = 'Report colontitles';
+$string['exampapercolontitlesdisplayoptions'] = 'TNMU: Report colontitles';
 $string['exampapercheader'] = 'Colontitles - report header';
 $string['exampapercfooter'] = 'Colontitles - report footer';
 $string['exampapersavecolontitles'] = 'Save static colontitles';
@@ -49,7 +50,7 @@ $string['exampapercheaderdefault'] = '
 </tr>
 <tr>
 <td style="width:100pt;border:none;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Навчальний рік</td>
-<td style="text-align:center;width:100pt;border:none;border-bottom:solid windowtext 1.0pt;">2017/2018</td>
+<td style="text-align:center;width:100pt;border:none;border-bottom:solid windowtext 1.0pt;">2019/2020</td>
 <td style="border:none;text-align:right;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Курс</td>
 <td style="text-align:center;width:50pt;border:none;border-bottom:solid windowtext 1.0pt;"></td>
 <td style="border:none;text-align:right;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Група</td>

@@ -19,13 +19,15 @@
  *
  * @package   quiz_exampaper
  * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
+ * @copyright 2020 Andrii Semenets (semteacher@tdmu.edu.ua)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+$string['pluginname'] = 'Відомість оцінок';
 $string['exampaper'] = 'Відомість оцінок';
 $string['exampaperdownload'] = 'Завантажити відомість: ';
 $string['exampaperfilename'] = 'examgradespaper';
 $string['exampaperreport'] = 'звіт Відомість оцінок';
-$string['exampapercolontitlesdisplayoptions'] = 'Колонтитули відомості';
+$string['exampapercolontitlesdisplayoptions'] = 'ТНМУ: Колонтитули відомості';
 $string['exampapercheader'] = 'Колонтитули - заголовок відомості';
 $string['exampapercfooter'] = 'Колонтитули - підвал відомості';
 $string['exampapersavecolontitles'] = 'Зберегти статичний заголовок';
@@ -48,7 +50,7 @@ $string['exampapercheaderdefault'] = '
 </tr>
 <tr>
 <td style="width:100pt;border:none;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Навчальний рік</td>
-<td style="text-align:center;width:100pt;border:none;border-bottom:solid windowtext 1.0pt;">2017/2018</td>
+<td style="text-align:center;width:100pt;border:none;border-bottom:solid windowtext 1.0pt;">2019/2020</td>
 <td style="border:none;text-align:right;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Курс</td>
 <td style="text-align:center;width:50pt;border:none;border-bottom:solid windowtext 1.0pt;"></td>
 <td style="border:none;text-align:right;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Група</td>
@@ -107,3 +109,10 @@ $string['exampapercfooterdefault'] = '
 $string['corectanswers'] = 'Вірно';
 $string['score'] = 'Оцінка';
 $string['fail'] = 'Не склав';
+
+$string['exampapergradescaletypedisplayoptions'] = 'ТНМУ: Тип іспиту (шкала оцінювання)';
+$string['exampapersavegradescaletype'] = 'Зберегти вибраний тип іспиту і застосувати шкалу оцінювання';
+$string['gradescaletypefrom'] = 'Вибертіть тип іспиту (шкалу оцінювання)';
+$string['difcreditlabel'] = 'Диференційований залік (50-80)';
+$string['testexamlabel'] = 'Іспит - тестова частина (38-60)';
+$string['essayexamlabel'] = 'Іспит - усна частина (ессе, 4-9)';

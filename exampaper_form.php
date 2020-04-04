@@ -19,6 +19,7 @@
  *
  * @package   quiz_exampaper
  * @copyright 2012 The Open University
+ * @copyright 2020 Andrii Semenets (semteacher@tdmu.edu.ua)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

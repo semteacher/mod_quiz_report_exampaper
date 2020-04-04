@@ -19,6 +19,7 @@
  *
  * @package   quiz_exampaper
  * @copyright 2012 The Open University
+ * @copyright 2020 Andrii Semenets (semteacher@tdmu.edu.ua)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,6 +33,7 @@ require_once($CFG->dirroot . '/mod/quiz/report/attemptsreport_options.php');
  * Class to store the options for a {@link quiz_exampaper_report}.
  *
  * @copyright 2012 The Open University
+ * @copyright 2020 Andrii Semenets (semteacher@tdmu.edu.ua)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class quiz_exampaper_options extends mod_quiz_attempts_report_options {
@@ -147,7 +149,7 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $this->pagesize     = optional_param('pagesize', $this->pagesize, PARAM_INT);
         $this->attempts     = optional_param('attempts', $this->attempts, PARAM_TEXT);
 
-        $this->gradescaletype     = optional_param('gradescaletype', $this->attempts, PARAM_TEXT);
+        $this->gradescaletype     = optional_param('gradescaletype', $this->gradescaletype, PARAM_TEXT);
         
         $this->cheadertext    = optional_param('cheader[text]', $this->cheadertext, PARAM_RAW);
         $this->cfootertext    = optional_param('cfooter[text]', $this->cfootertext, PARAM_RAW);

@@ -19,11 +19,12 @@
  *
  * @package   quiz_exampaper
  * @copyright 2008 Jamie Pratt
+ * @copyright 2020 Andrii Semenets (semteacher@tdmu.edu.ua)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2020040400;
+$plugin->version  = 2020040401;
 $plugin->requires = 2016112900;
 $plugin->component = 'quiz_exampaper';

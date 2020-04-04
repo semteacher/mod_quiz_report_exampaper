@@ -39,6 +39,12 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
     /** @var bool whether to show only attempt that need regrading. */
     public $onlyregraded = false;
 
+    /**
+     * @var bool whether to show all finished attmepts, or just the one that gave
+     *      the final grade for the user.
+     */
+    public $onlygraded = true;
+
     /** @var bool whether to show marks for each question (slot). */
     public $slotmarks = false;
     

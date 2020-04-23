@@ -27,11 +27,11 @@ $string['exampaper'] = 'Exam Grades Paper';
 $string['exampaperdownload'] = 'Download report paper: ';
 $string['exampaperfilename'] = 'examgradespaper';
 $string['exampaperreport'] = 'Exam grades paper report';
-$string['exampapercolontitlesdisplayoptions'] = 'TNMU: Report colontitles';
+$string['exampapercolontitlesdisplayoptions'] = 'TNMU: Grade scale and colontitles of report';
 $string['exampapercheader'] = 'Colontitles - report header';
 $string['exampapercfooter'] = 'Colontitles - report footer';
-$string['exampapersavecolontitles'] = 'Save static colontitles';
-$string['exampaperesetcolontitles'] = 'Reset colontitles to default';
+$string['exampapersavecolontitles'] = 'Save static colontitles and grade scale';
+$string['exampaperesetcolontitles'] = 'Reset colontitles and grade scale to default';
 $string['exampaperesetcolontitlescofirmation'] = 'Are you absolutely sure? All your changes of the colontites will be completely deleted !';
 $string['exampapercheaderdefault'] = '
 <p style="margin:3pt 0pt 3pt 0pt;text-align:center;">МІНІСТЕРСТВО ОХОРОНИ ЗДОРОВ\'Я УКРАЇНИ</p>
@@ -54,7 +54,7 @@ $string['exampapercheaderdefault'] = '
 <td style="border:none;text-align:right;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Курс</td>
 <td style="text-align:center;width:50pt;border:none;border-bottom:solid windowtext 1.0pt;"></td>
 <td style="border:none;text-align:right;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Група</td>
-<td style="text-align:center;width:50pt;border:none;border-bottom:solid windowtext 1.0pt;"></td>
+<td style="text-align:center;width:50pt;border:none;border-bottom:solid windowtext 1.0pt;" class="groupname">{group}</td>
 </tr>
 </tbody>
 </table>
@@ -110,8 +110,7 @@ $string['corectanswers'] = 'Correct';
 $string['score'] = 'Grade';
 $string['fail'] = 'Не склав';
 
-$string['exampapergradescaletypedisplayoptions'] = 'TNMU: Exam type (grade scale)';
-$string['exampapersavegradescaletype'] = 'Save exam type and apply grade scale';
+$string['exampapersavegradescaletype'] = 'Apply grade scale';
 $string['gradescaletypefrom'] = 'Choose exam type (set grade scale)';
 $string['difcreditlabel'] = 'Differential credit (50-80)';
 $string['testexamlabel'] = 'General Exam (38-60)';

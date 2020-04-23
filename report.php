@@ -333,6 +333,7 @@ class quiz_exampaper_report extends quiz_attempts_report {
         $colontitles->cfooter = $formdata->cfooter['text'];
         $colontitles->cheaderformat = $formdata->cheader['format'];
         $colontitles->cfooterformat = $formdata->cfooter['format'];
+        $colontitles->gradescaletype = $formdata->gradescaletype;
         
         $transaction = $DB->start_delegated_transaction();
         

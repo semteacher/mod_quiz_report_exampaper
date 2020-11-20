@@ -50,7 +50,7 @@ $string['exampapercheaderdefault'] = '
 </tr>
 <tr>
 <td style="width:100pt;border:none;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Навчальний рік</td>
-<td style="text-align:center;width:100pt;border:none;border-bottom:solid windowtext 1.0pt;">2019/2020</td>
+<td style="text-align:center;width:100pt;border:none;border-bottom:solid windowtext 1.0pt;">2020/2021</td>
 <td style="border:none;text-align:right;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Курс</td>
 <td style="text-align:center;width:50pt;border:none;border-bottom:solid windowtext 1.0pt;"></td>
 <td style="border:none;text-align:right;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Група</td>

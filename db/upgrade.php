@@ -72,7 +72,7 @@ function xmldb_quiz_exampaper_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2017042500, 'quiz', 'exampaper');
     }
     
-    if ($oldversion < 2020040602) {
+    if ($oldversion < 2020061501) {
 
         $table = new xmldb_table('quiz_exampaper_colontitles');
 
@@ -84,7 +84,7 @@ function xmldb_quiz_exampaper_upgrade($oldversion) {
         }
 
         // Quiz exampaper savepoint reached.
-        upgrade_mod_savepoint(true, 2020040602, 'quiz', 'exampaper');        
+        upgrade_mod_savepoint(true, 2020061501, 'quiz', 'exampaper');        
     }
 
     return true;

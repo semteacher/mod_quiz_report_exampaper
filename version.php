@@ -25,6 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2020040602;
+$plugin->version  = 2020061501;
 $plugin->requires = 2016112900;
 $plugin->component = 'quiz_exampaper';

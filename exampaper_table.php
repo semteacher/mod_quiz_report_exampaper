@@ -446,6 +446,8 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
 	protected function tdmu_extragrades($grade) {
 		$grade_tdmu = $grade;
 		if ($grade <= 24) {$grade_tdmu = get_string('fail', 'quiz_exampaper');}
+        elseif ($grade == 25) {$grade_tdmu = 51;}
+        elseif ($grade == 26) {$grade_tdmu = 51;}
 		elseif ($grade <= 41) {$grade_tdmu = $grade + 25;}
 		elseif ($grade == 42) {$grade_tdmu = 68;}
 		elseif ($grade == 43) {$grade_tdmu = 70;}

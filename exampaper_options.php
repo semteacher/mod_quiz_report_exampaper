@@ -109,7 +109,8 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
             $this->cheadertext    = $saved_colontitles->cheader;
             $this->cfootertext    = $saved_colontitles->cfooter;
             $this->cheaderformat  = $saved_colontitles->cheaderformat;
-            $this->cfoterformat   = $saved_colontitles->cfooterformat;            
+            $this->cfoterformat   = $saved_colontitles->cfooterformat;
+            $this->gradescaletype   = $saved_colontitles->gradescaletype;
         } else {
             $this->cheadertext = get_string('exampapercheaderdefault', 'quiz_exampaper', $a);
             $this->cfootertext = get_string('exampapercfooterdefault', 'quiz_exampaper', $a);
@@ -133,7 +134,7 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $this->pagesize     = $fromform->pagesize;
         $this->attempts     = $fromform->attempts;
 
-        $this->gradescaletype     = $fromform->gradescaletype;
+        $this->gradescaletype = $fromform->gradescaletype;
         
         $this->cheadertext    = $fromform->cheader['text'];
         $this->cfootertext    = $fromform->cfooter['text'];
@@ -149,7 +150,7 @@ class quiz_exampaper_options extends mod_quiz_attempts_report_options {
         $this->pagesize     = optional_param('pagesize', $this->pagesize, PARAM_INT);
         $this->attempts     = optional_param('attempts', $this->attempts, PARAM_TEXT);
 
-        $this->gradescaletype     = optional_param('gradescaletype', $this->gradescaletype, PARAM_TEXT);
+        $this->gradescaletype = optional_param('gradescaletype', $this->gradescaletype, PARAM_TEXT);
         
         $this->cheadertext    = optional_param('cheader[text]', $this->cheadertext, PARAM_RAW);
         $this->cfootertext    = optional_param('cfooter[text]', $this->cfootertext, PARAM_RAW);

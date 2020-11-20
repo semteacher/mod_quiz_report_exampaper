@@ -50,13 +50,7 @@ class quiz_exampaper_settings_form extends moodleform {
         $mform->addElement('submit', 'submitbutton',
                 get_string('showreport', 'quiz'));
 
-        $mform->addElement('header', 'preferencegradescaletype',
-                get_string('exampapergradescaletypedisplayoptions', 'quiz_exampaper'));
-
         $this->other_attempt_fields($mform);
-
-        $mform->addElement('submit', 'savegradescaletype',
-                get_string('exampapersavegradescaletype', 'quiz_exampaper'));
 
         $mform->addElement('header', 'preferencesuser',
                 get_string('exampapercolontitlesdisplayoptions', 'quiz_exampaper'));
@@ -114,11 +108,6 @@ class quiz_exampaper_settings_form extends moodleform {
     }
 
     protected function other_attempt_fields(MoodleQuickForm $mform) {
-        $mform->addElement('select', 'gradescaletype', get_string('gradescaletypefrom', 'quiz_exampaper'), array(
-                    quiz_exampaper_report::GRADESCALE_DIFCREDIT => get_string('difcreditlabel', 'quiz_exampaper'),
-                    quiz_exampaper_report::GRADESCALE_TESTEXAM => get_string('testexamlabel', 'quiz_exampaper'),
-                    quiz_exampaper_report::GRADESCALE_ESSAYEXAM => get_string('essayexamlabel', 'quiz_exampaper'),
-                 ));
     }
 
     protected function standard_preference_fields(MoodleQuickForm $mform) {
@@ -131,6 +120,16 @@ class quiz_exampaper_settings_form extends moodleform {
     }
 
     protected function other_preference_fields(MoodleQuickForm $mform) {
+
+        // grade scale selector
+        $mform->addElement('select', 'gradescaletype', get_string('gradescaletypefrom', 'quiz_exampaper'), array(
+                    quiz_exampaper_report::GRADESCALE_DIFCREDIT => get_string('difcreditlabel', 'quiz_exampaper'),
+                    quiz_exampaper_report::GRADESCALE_TESTEXAM => get_string('testexamlabel', 'quiz_exampaper'),
+                    quiz_exampaper_report::GRADESCALE_ESSAYEXAM => get_string('essayexamlabel', 'quiz_exampaper'),
+                 ));
+        $mform->addElement('submit', 'savegradescaletype',
+                get_string('exampapersavegradescaletype', 'quiz_exampaper'));
+
 		// cheader editor.
         $mform->addElement('editor', 'cheader',
                 get_string('exampapercheader', 'quiz_exampaper'), array('rows' => 5), array('maxfiles' => EDITOR_UNLIMITED_FILES,

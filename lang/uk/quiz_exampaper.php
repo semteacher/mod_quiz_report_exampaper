@@ -27,15 +27,15 @@ $string['exampaper'] = 'Відомість оцінок';
 $string['exampaperdownload'] = 'Завантажити відомість: ';
 $string['exampaperfilename'] = 'examgradespaper';
 $string['exampaperreport'] = 'звіт Відомість оцінок';
-$string['exampapercolontitlesdisplayoptions'] = 'ТНМУ: Колонтитули відомості';
+$string['exampapercolontitlesdisplayoptions'] = 'ТНМУ: Шкала оцінювання і колонтитули відомості';
 $string['exampapercheader'] = 'Колонтитули - заголовок відомості';
 $string['exampapercfooter'] = 'Колонтитули - підвал відомості';
-$string['exampapersavecolontitles'] = 'Зберегти статичний заголовок';
-$string['exampaperesetcolontitles'] = 'Відновити заголовок по-замовчуванню';
+$string['exampapersavecolontitles'] = 'Зберегти статичний заголовок і шкалу оцінювання';
+$string['exampaperesetcolontitles'] = 'Відновити заголовок і шкалу оцінювання по-замовчуванню';
 $string['exampaperesetcolontitlescofirmation'] = 'Ви впевнені? Всі Ваші зміни колонтитулів будуть втрачені!';
 $string['exampapercheaderdefault'] = '
 <p style="margin:3pt 0pt 3pt 0pt;text-align:center;">МІНІСТЕРСТВО ОХОРОНИ ЗДОРОВ\'Я УКРАЇНИ</p>
-<p style="margin:3pt 0pt 3pt 0pt;text-align:center;"><b>Тернопільський державний медичний університет імені І.Я.Горбачевського</b></p>
+<p style="margin:3pt 0pt 3pt 0pt;text-align:center;"><b>Тернопільський національний медичний університет імені І.Я.Горбачевського</b></p>
 <table border=0 cellspacing=0 cellpadding=0 style="border-collapse:collapse">
 <tbody>
 <tr>
@@ -50,11 +50,11 @@ $string['exampapercheaderdefault'] = '
 </tr>
 <tr>
 <td style="width:100pt;border:none;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Навчальний рік</td>
-<td style="text-align:center;width:100pt;border:none;border-bottom:solid windowtext 1.0pt;">2019/2020</td>
+<td style="text-align:center;width:100pt;border:none;border-bottom:solid windowtext 1.0pt;">2020/2021</td>
 <td style="border:none;text-align:right;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Курс</td>
 <td style="text-align:center;width:50pt;border:none;border-bottom:solid windowtext 1.0pt;"></td>
 <td style="border:none;text-align:right;padding:0.05cm 0.1cm 0.05cm 0.1cm;">Група</td>
-<td style="text-align:center;width:50pt;border:none;border-bottom:solid windowtext 1.0pt;"></td>
+<td style="text-align:center;width:50pt;border:none;border-bottom:solid windowtext 1.0pt;" class="groupname">{group}</td>
 </tr>
 </tbody>
 </table>
@@ -110,8 +110,7 @@ $string['corectanswers'] = 'Вірно';
 $string['score'] = 'Оцінка';
 $string['fail'] = 'Не склав';
 
-$string['exampapergradescaletypedisplayoptions'] = 'ТНМУ: Тип іспиту (шкала оцінювання)';
-$string['exampapersavegradescaletype'] = 'Зберегти вибраний тип іспиту і застосувати шкалу оцінювання';
+$string['exampapersavegradescaletype'] = 'Застосувати вибрану шкалу оцінювання';
 $string['gradescaletypefrom'] = 'Вибертіть тип іспиту (шкалу оцінювання)';
 $string['difcreditlabel'] = 'Диференційований залік (50-80)';
 $string['testexamlabel'] = 'Іспит - тестова частина (38-60)';

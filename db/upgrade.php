@@ -71,6 +71,21 @@ function xmldb_quiz_exampaper_upgrade($oldversion) {
         // Quiz exampaper savepoint reached.
         upgrade_mod_savepoint(true, 2017042500, 'quiz', 'exampaper');
     }
+    
+    if ($oldversion < 2020061501) {
+
+        $table = new xmldb_table('quiz_exampaper_colontitles');
+
+        // Define field questioncategoryid to be added to quiz_slots.
+        $field = new xmldb_field('gradescaletype', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, null, null, 'testexam');
+        // Conditionally launch add field questioncategoryid.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Quiz exampaper savepoint reached.
+        upgrade_mod_savepoint(true, 2020061501, 'quiz', 'exampaper');        
+    }
 
     return true;
 }

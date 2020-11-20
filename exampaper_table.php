@@ -414,7 +414,15 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
         if ($this->exportclass!==null) {
             $this->exportclass->start_table($this->sheettitle);
             //$this->exportclass->output_headers($this->headers); //old origin call
-            \dataformat_doc\writer::write_document_header($this->filename);            
+
+            if ($this->options->group > 0) {
+                $groupname = groups_get_group_name($this->options->group);
+            } else {
+                $groupname = 'all students';
+            }
+            $this->options->cheadertext = str_replace("{group}", $groupname, $this->options->cheadertext);
+
+            \dataformat_doc\writer::write_document_header($this->filename);
             \dataformat_doc\writer::write_div($this->options->cheadertext);
             \dataformat_doc\writer::write_table_header($this->headers);
         } else {

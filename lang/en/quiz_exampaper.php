@@ -112,6 +112,6 @@ $string['fail'] = 'Не склав';
 
 $string['exampapersavegradescaletype'] = 'Apply grade scale';
 $string['gradescaletypefrom'] = 'Choose exam type (set grade scale)';
-$string['difcreditlabel'] = 'Differential credit (50-80)';
+$string['difcreditlabel'] = 'Differential credit (51-80)';
 $string['testexamlabel'] = 'General Exam (38-60)';
 $string['essayexamlabel'] = 'Oral exam (essay, 4-9)';

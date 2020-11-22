@@ -112,6 +112,6 @@ $string['fail'] = 'Не склав';
 
 $string['exampapersavegradescaletype'] = 'Застосувати вибрану шкалу оцінювання';
 $string['gradescaletypefrom'] = 'Вибертіть тип іспиту (шкалу оцінювання)';
-$string['difcreditlabel'] = 'Диференційований залік (50-80)';
+$string['difcreditlabel'] = 'Диференційований залік (51-80)';
 $string['testexamlabel'] = 'Іспит - тестова частина (38-60)';
 $string['essayexamlabel'] = 'Іспит - усна частина (ессе, 4-9)';

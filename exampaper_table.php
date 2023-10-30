@@ -453,6 +453,7 @@ class quiz_exampaper_table extends quiz_attempts_report_table {
     }
 
 	protected function tdmu_extragrades($grade) {
+		$grade = (float) $grade; // Fix Moodle 4.x issue when $grade is type of STRING and depends to LOCALE!
 		$grade_tdmu = $grade;
         if ($this->options->gradescaletype == quiz_exampaper_report::GRADESCALE_DIFCREDIT) {
             if ($grade <= 24) {$grade_tdmu = get_string('fail', 'quiz_exampaper');}
